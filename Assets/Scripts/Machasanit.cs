@@ -5,12 +5,15 @@ using UnityEngine;
 public class Machasanit : MonoBehaviour
 {
     [SerializeField] List<RectTransform> SpacesInMachsanit;
+    public List<Tile> _Tiles = new List<Tile>();
     public List<Tile> TilesInMachsanit = new List<Tile>();
+    public List<Tile> MacsanitMesudert = new List<Tile>();
 
-  //public List<Tile> sortedTileNums;
-  //public List<Tile> sortedTileColors;
+    //public List<Tile> sortedTileNums;
+    //public List<Tile> sortedTileColors;
 
     public int NumberOfOnes, NumberOftwos, NumberOfthrees, NumberOffours, NumberOffives, NumberOfsix;
+
 
     public void AddTile(Tile tile)
     {
@@ -18,7 +21,7 @@ public class Machasanit : MonoBehaviour
         {
             //tile.transform.position = SpacesInMachsanit[TilesInMachsanit.Count].position;
             TilesInMachsanit.Add(tile);
-
+            
             Seder(tile);
         }
         tile.gameObject.SetActive(false);
@@ -30,16 +33,49 @@ public class Machasanit : MonoBehaviour
         CheckForMatch();
         SederInMachsanit();
     }
-    void SederInMachsanit() 
+    //void SederInMachsanit()
+    //{
+    //    //MacsanitMesudert.Add(NumberOfOnes);
+    //    //MacsanitMesudert.Add(NumberOftwos);
+    //    //MacsanitMesudert.Add(NumberOfthrees);
+    //    //MacsanitMesudert.Add(NumberOffours);
+    //    //MacsanitMesudert.Add(NumberOffives);
+    //    //MacsanitMesudert.Add(NumberOfsix);
+
+    //    RezefLoop();
+    //}
+
+    private void Sidur(int Seira, int Mispar, int Rezef)
     {
+        if (Seira == Rezef)
+        {
+            foreach (var item in TilesInMachsanit)
+            {
 
-
-       
-        
-
+                if (item.Number == Mispar)
+                {
+                    MacsanitMesudert.Add(item);
+                    print(item);
+                }
+            }
+        }
     }
-   
-    
+    private void SederInMachsanit()
+    {
+        MacsanitMesudert.Clear();
+        for (int i = 5; i > 0; i--)
+        {
+            Sidur(NumberOfOnes, 1, i);
+            Sidur(NumberOftwos, 2, i);
+            Sidur(NumberOfthrees, 3, i);
+            Sidur(NumberOffours, 4, i);
+            Sidur(NumberOffives, 5, i);
+            Sidur(NumberOfsix, 6, i);
+        }
+        
+    }
+
+
 
     /* private void RummyThing()
      {
