@@ -1,48 +1,72 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Machasanit : MonoBehaviour
 {
+    public static Machasanit Instance { get; private set; }
+    private void Awake()
+    {
+        // If there is an instance, and it's not me, delete myself.
+
+        if (Instance != null && Instance != this)
+        {
+            Destroy(this);
+        }
+        else
+        {
+            Instance = this;
+        }
+    }
+
     [SerializeField] List<RectTransform> SpacesInMachsanit;
     public List<Tile> _Tiles = new List<Tile>();
     public List<Tile> TilesInMachsanit = new List<Tile>();
     public List<Tile> MacsanitMesudert = new List<Tile>();
-    public  GameObject conButton;
+    public GameObject conButton;
+    
 
     //public List<Tile> sortedTileNums;
     //public List<Tile> sortedTileColors;
-    public bool has6;
+    public bool moreThen3;
     public int NumberOfOnes, NumberOftwos, NumberOfthrees, NumberOffours, NumberOffives, NumberOfsix;
 
     private void Update()
     {
-        if (MacsanitMesudert.Count == 6)
+        if (NumberOfOnes >= 3 || NumberOftwos >= 3 || NumberOfthrees >= 3 || NumberOffours >= 3 || NumberOffives >= 3 || NumberOfsix >= 3)
         {
             conButton.SetActive(true);
-            has6 = true;
+            moreThen3 = true;
 
         }
         else
         {
             conButton.SetActive(false);
-            has6 = false;  
+            moreThen3 = false;
+
         }
 
     }
     public void AddTile(Tile tile)
     {
-        if (SpacesInMachsanit.Count > 0 && SpacesInMachsanit.Count >=6)
+        if (tile._Interactable)
         {
-            //tile.transform.position = SpacesInMachsanit[TilesInMachsanit.Count].position;
-            TilesInMachsanit.Add(tile);
-            
-            Seder(tile);
-            if (MacsanitMesudert.Count == 6)
+            if (SpacesInMachsanit.Count > 0 && SpacesInMachsanit.Count >= 6)
             {
-                has6 = true;
+                //tile.transform.position = SpacesInMachsanit[TilesInMachsanit.Count].position;
+                TilesInMachsanit.Add(tile);
+
+                Seder(tile);
+                if (MacsanitMesudert.Count == 6 && NumberOfOnes < 3 || NumberOftwos < 3 || NumberOfthrees < 3 || NumberOffours < 3 || NumberOffives < 3 || NumberOfsix < 3)
+                {
+                    //Loose Condition
+                    print("You Loose");
+                }
             }
+            tile._Interactable = false;
         }
+
 
         // tile.gameObject.SetActive(false);
     }
@@ -93,22 +117,27 @@ public class Machasanit : MonoBehaviour
             Sidur(NumberOffives, 5, i);
             Sidur(NumberOfsix, 6, i);
 
-          
+
         }
-        if (SpacesInMachsanit.Count >= 1 )
+        if (MacsanitMesudert.Count >= 1)
         {
-            for (int i = 0; i < SpacesInMachsanit.Count; i++)
+            for (int i = 0; i < MacsanitMesudert.Count; i++)
             {
                 MacsanitMesudert[i].transform.position = SpacesInMachsanit[i].transform.position;
             }
         }
-
+        ComboMaker(NumberOfOnes, 1);
+        ComboMaker(NumberOftwos, 2);
+        ComboMaker(NumberOfthrees, 3);
+        ComboMaker(NumberOffours, 4);
+        ComboMaker(NumberOffives, 5);
+        ComboMaker(NumberOfsix, 6);
     }
     public void ConfirmList()
     {
-        if (has6)
+        if (moreThen3)
         {
-            
+
             foreach (var item in MacsanitMesudert)
             {
                 Destroy(item.gameObject);
@@ -119,7 +148,64 @@ public class Machasanit : MonoBehaviour
         }
     }
 
+    public void ComboMaker(int numberOf, int imgNumber)
+    {
+        if (numberOf >= 3)
+        {
 
+            foreach (var Combo in MacsanitMesudert)
+            {
+                if (Combo.Number == imgNumber)
+                {
+                    StartCoroutine(wait(Combo));
+                   // Combo._Interactable = true;
+                }
+            }
+        }
+
+
+    }
+    public IEnumerator wait(Tile tile)
+    {
+        yield return new WaitForSeconds(0.15f);
+        tile._Comboabol = true;
+
+    }
+    public void DestoryCombo(int num)
+    {
+        int counter = 0;
+        foreach (var item in MacsanitMesudert)
+        {
+            if (item.Number == num)
+            {
+                Destroy(item.gameObject);
+                counter++;
+            }
+        }
+        Combos(counter);
+    }
+
+    public void Combos(int amount)
+    {
+        switch (amount)
+        {
+            case 3:
+                print("Destoryed 3");
+                break;
+            case 4:
+                print("Destoryed 4 with splash");
+                break;
+            case 5:
+                print("Destoryed 5 with fire");
+                break;
+            case 6:
+                print("GG");
+                break;
+            default:
+                break;
+        }
+    }
+    
     /* private void RummyThing()
      {
          for (int i = 0; i < TilesInMachsanit.Count; i++) // if the numbers are the same add to sorted list
