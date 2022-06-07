@@ -17,17 +17,12 @@ public class Tile : MonoBehaviour
     public void ComboMaker()
     {
 
-        StartCoroutine(wait());
-
-    }
-    public IEnumerator wait()
-    {
-        yield return new WaitForSeconds(0.1f);
         if (_Comboabol && !_Interactable)
         {
             Machasanit.Instance.DestoryCombo(Number);
         }
 
     }
+
 
 }
