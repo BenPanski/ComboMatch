@@ -8,23 +8,43 @@ public class Machasanit : MonoBehaviour
     public List<Tile> _Tiles = new List<Tile>();
     public List<Tile> TilesInMachsanit = new List<Tile>();
     public List<Tile> MacsanitMesudert = new List<Tile>();
+    public  GameObject conButton;
 
     //public List<Tile> sortedTileNums;
     //public List<Tile> sortedTileColors;
-
+    public bool has6;
     public int NumberOfOnes, NumberOftwos, NumberOfthrees, NumberOffours, NumberOffives, NumberOfsix;
 
+    private void Update()
+    {
+        if (MacsanitMesudert.Count == 6)
+        {
+            conButton.SetActive(true);
+            has6 = true;
 
+        }
+        else
+        {
+            conButton.SetActive(false);
+            has6 = false;  
+        }
+
+    }
     public void AddTile(Tile tile)
     {
-        if (SpacesInMachsanit.Count > 0)
+        if (SpacesInMachsanit.Count > 0 && SpacesInMachsanit.Count >=6)
         {
             //tile.transform.position = SpacesInMachsanit[TilesInMachsanit.Count].position;
             TilesInMachsanit.Add(tile);
             
             Seder(tile);
+            if (MacsanitMesudert.Count == 6)
+            {
+                has6 = true;
+            }
         }
-        tile.gameObject.SetActive(false);
+
+        // tile.gameObject.SetActive(false);
     }
 
     public void Seder(Tile tile)
@@ -32,6 +52,7 @@ public class Machasanit : MonoBehaviour
         // RummyThing();
         CheckForMatch();
         SederInMachsanit();
+
     }
     //void SederInMachsanit()
     //{
@@ -71,10 +92,32 @@ public class Machasanit : MonoBehaviour
             Sidur(NumberOffours, 4, i);
             Sidur(NumberOffives, 5, i);
             Sidur(NumberOfsix, 6, i);
-        }
-        
-    }
 
+          
+        }
+        if (SpacesInMachsanit.Count >= 1 )
+        {
+            for (int i = 0; i < SpacesInMachsanit.Count; i++)
+            {
+                MacsanitMesudert[i].transform.position = SpacesInMachsanit[i].transform.position;
+            }
+        }
+
+    }
+    public void ConfirmList()
+    {
+        if (has6)
+        {
+            
+            foreach (var item in MacsanitMesudert)
+            {
+                Destroy(item.gameObject);
+            }
+            conButton.SetActive(false);
+            MacsanitMesudert = new List<Tile>(0);
+            TilesInMachsanit = new List<Tile>(0);
+        }
+    }
 
 
     /* private void RummyThing()
