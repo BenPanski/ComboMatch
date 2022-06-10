@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Random = UnityEngine.Random;
 
 public class Machasanit : MonoBehaviour
 {
@@ -55,10 +56,10 @@ public class Machasanit : MonoBehaviour
             }
 
         }
-        //foreach (var sort in _newTilesList)
-        //{
-        //    sort.transform.position = new Vector3(sort.transform.position.x, sort.transform.position.y + 0.1f);
-        //}
+        foreach (var sort in _newTilesList)
+        {
+                sort.transform.position = new Vector3(sort.transform.position.x, sort.transform.position.y * Random.Range(0.1f, 0.2f));    
+        }
 
     }
 
