@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -25,6 +26,7 @@ public class Machasanit : MonoBehaviour
     public List<Tile> TilesInMachsanit = new List<Tile>();
     public List<Tile> MacsanitMesudert = new List<Tile>();
     public GameObject conButton;
+    public Canvas gameCanvas;
     
 
     //public List<Tile> sortedTileNums;
@@ -32,20 +34,48 @@ public class Machasanit : MonoBehaviour
     public bool moreThen3;
     public int NumberOfOnes, NumberOftwos, NumberOfthrees, NumberOffours, NumberOffives, NumberOfsix;
 
+    private void Start()
+    {
+        ShuffleTiles();
+    }
+
+    private void ShuffleTiles()
+    {
+        Tile newTile;
+        List<Tile> _newTilesList = new List<Tile>();
+        foreach (var item in _Tiles)
+        {
+            for (int i = 0; i < _Tiles.Count; i++)
+            {
+                newTile = Instantiate(item, new Vector3(item.transform.position.x, item.transform.position.y - i), Quaternion.identity);
+                newTile.GetComponent<Tile>().Layer = i +2;
+                newTile.gameObject.transform.SetParent(gameCanvas.transform, true);
+                newTile.transform.localScale = new Vector3(25, 25, 25);
+                _newTilesList.Add(newTile);
+            }
+
+        }
+        //foreach (var sort in _newTilesList)
+        //{
+        //    sort.transform.position = new Vector3(sort.transform.position.x, sort.transform.position.y + 0.1f);
+        //}
+
+    }
+
     private void Update()
     {
-        if (NumberOfOnes >= 3 || NumberOftwos >= 3 || NumberOfthrees >= 3 || NumberOffours >= 3 || NumberOffives >= 3 || NumberOfsix >= 3)
-        {
-            conButton.SetActive(true);
-            moreThen3 = true;
+        //if (NumberOfOnes >= 3 || NumberOftwos >= 3 || NumberOfthrees >= 3 || NumberOffours >= 3 || NumberOffives >= 3 || NumberOfsix >= 3)
+        //{
+        //    conButton.SetActive(true);
+        //    moreThen3 = true;
 
-        }
-        else
-        {
-            conButton.SetActive(false);
-            moreThen3 = false;
+        //}
+        //else
+        //{
+        //    conButton.SetActive(false);
+        //    moreThen3 = false;
 
-        }
+        //}
 
     }
     public void AddTile(Tile tile)
@@ -133,20 +163,20 @@ public class Machasanit : MonoBehaviour
         ComboMaker(NumberOffives, 5);
         ComboMaker(NumberOfsix, 6);
     }
-    public void ConfirmList()
-    {
-        if (moreThen3)
-        {
+    //public void ConfirmList()
+    //{
+    //    if (moreThen3)
+    //    {
 
-            foreach (var item in MacsanitMesudert)
-            {
-                Destroy(item.gameObject);
-            }
-            conButton.SetActive(false);
-            MacsanitMesudert = new List<Tile>(0);
-            TilesInMachsanit = new List<Tile>(0);
-        }
-    }
+    //        foreach (var item in MacsanitMesudert)
+    //        {
+    //            item.gameObject.SetActive(false);
+    //        }
+    //        //conButton.SetActive(false);
+    //        MacsanitMesudert = new List<Tile>(0);
+    //        TilesInMachsanit = new List<Tile>(0);
+    //    }
+    //}
 
     public void ComboMaker(int numberOf, int imgNumber)
     {

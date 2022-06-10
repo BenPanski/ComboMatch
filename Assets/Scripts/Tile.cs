@@ -8,6 +8,7 @@ public enum MyEnum
 }
 public class Tile : MonoBehaviour
 {
+    [SerializeField] public int Layer;
     [SerializeField] public int Number;
     [SerializeField] public MyEnum Color;
     [SerializeField] public bool _Comboabol = false;
@@ -23,6 +24,7 @@ public class Tile : MonoBehaviour
         }
 
     }
+
 
 
 }
