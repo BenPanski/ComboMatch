@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Random = UnityEngine.Random;
+using TMPro;
+using UnityEngine.SceneManagement;
 
 public class Machasanit : MonoBehaviour
 {
@@ -21,44 +23,72 @@ public class Machasanit : MonoBehaviour
             Instance = this;
         }
     }
-
+    [Header("Inisialze Lists")]
     [SerializeField] List<RectTransform> SpacesInMachsanit;
     public List<Tile> _Tiles = new List<Tile>();
+
+    [Header("RunTime Lists")]
+    [Space]
     public List<Tile> TilesInMachsanit = new List<Tile>();
     public List<Tile> MacsanitMesudert = new List<Tile>();
-    public GameObject conButton;
+
+    [Header("Variables")]
+    [Space]
+    //public GameObject conButton;
     public Canvas gameCanvas;
-    
+    public int Raws;
+    public TextMeshProUGUI loose;
+    [SerializeField] private int JokerCost;
+    [SerializeField] private int BurnCost;
+    [SerializeField] private int MachsanitSize;
+    [SerializeField] private int SplitCost;
+
+
 
     //public List<Tile> sortedTileNums;
     //public List<Tile> sortedTileColors;
+    [Header("Counters")]
+    [Space]
     public bool moreThen3;
     public int NumberOfOnes, NumberOftwos, NumberOfthrees, NumberOffours, NumberOffives, NumberOfsix;
 
     private void Start()
     {
-        ShuffleTiles();
+        StartGame();
     }
 
-    private void ShuffleTiles()
+    private void StartGame()
     {
+        //Variables
         Tile newTile;
         List<Tile> _newTilesList = new List<Tile>();
+
+        //Shuffle Tiles
+        for (int i = 0; i < _Tiles.Count; i++)
+        {
+            Tile temp = _Tiles[i];
+            int randomIndex = Random.Range(i, _Tiles.Count);
+            _Tiles[i] = _Tiles[randomIndex];
+            _Tiles[randomIndex] = temp;
+        }
+
+        //Fix Tiles Position + Instantiate
         foreach (var item in _Tiles)
         {
-            for (int i = 0; i < _Tiles.Count; i++)
+            for (int i = 0; i < Raws; i++)
             {
                 newTile = Instantiate(item, new Vector3(item.transform.position.x, item.transform.position.y - i), Quaternion.identity);
-                newTile.GetComponent<Tile>().Layer = i +2;
+                newTile.GetComponent<Tile>().Layer = i + 2;
                 newTile.gameObject.transform.SetParent(gameCanvas.transform, true);
                 newTile.transform.localScale = new Vector3(25, 25, 25);
                 _newTilesList.Add(newTile);
             }
 
         }
+
         foreach (var sort in _newTilesList)
         {
-                sort.transform.position = new Vector3(sort.transform.position.x, sort.transform.position.y * Random.Range(0.1f, 0.2f));    
+            sort.transform.position = new Vector3(sort.transform.position.x, sort.transform.position.y * Random.Range(0.2f, 0.4f));
         }
 
     }
@@ -81,28 +111,30 @@ public class Machasanit : MonoBehaviour
     }
     public void AddTile(Tile tile)
     {
+
+
         if (tile._Interactable)
         {
-            if (SpacesInMachsanit.Count > 0 && SpacesInMachsanit.Count >= 6)
+            if (TilesInMachsanit.Count < 6)
             {
-                //tile.transform.position = SpacesInMachsanit[TilesInMachsanit.Count].position;
                 TilesInMachsanit.Add(tile);
 
-                Seder(tile);
-                if (MacsanitMesudert.Count == 6 && NumberOfOnes < 3 || NumberOftwos < 3 || NumberOfthrees < 3 || NumberOffours < 3 || NumberOffives < 3 || NumberOfsix < 3)
-                {
-                    //Loose Condition
-                    print("You Loose");
-                }
+                Seder();
+
             }
             tile._Interactable = false;
         }
 
+        if (TilesInMachsanit.Count == 6 && NumberOfOnes < 3 && NumberOftwos < 3 && NumberOfthrees < 3 && NumberOffours < 3 && NumberOffives < 3 && NumberOfsix < 3)
+        {
+            loose.gameObject.SetActive(true);
+            print(TilesInMachsanit.Count);
+        }
 
         // tile.gameObject.SetActive(false);
     }
 
-    public void Seder(Tile tile)
+    public void Seder()
     {
         // RummyThing();
         CheckForMatch();
@@ -188,15 +220,15 @@ public class Machasanit : MonoBehaviour
             {
                 if (Combo.Number == imgNumber)
                 {
-                    StartCoroutine(wait(Combo));
-                   // Combo._Interactable = true;
+                    StartCoroutine(Wait(Combo));
+                    // Combo._Interactable = true;
                 }
             }
         }
 
 
     }
-    public IEnumerator wait(Tile tile)
+    public IEnumerator Wait(Tile tile)
     {
         yield return new WaitForSeconds(0.15f);
         tile._Comboabol = true;
@@ -211,9 +243,11 @@ public class Machasanit : MonoBehaviour
             {
                 Destroy(item.gameObject);
                 counter++;
+                TilesInMachsanit.Remove(item);
             }
         }
         Combos(counter);
+        Seder();
     }
 
     public void Combos(int amount)
@@ -236,7 +270,7 @@ public class Machasanit : MonoBehaviour
                 break;
         }
     }
-    
+
     /* private void RummyThing()
      {
          for (int i = 0; i < TilesInMachsanit.Count; i++) // if the numbers are the same add to sorted list
@@ -269,32 +303,45 @@ public class Machasanit : MonoBehaviour
 
         foreach (var item in TilesInMachsanit)
         {
-            switch (item.Number)
+            if (item.Number == JokerCost)
             {
-                case 1:
-                    NumberOfOnes++;
-                    break;
-                case 2:
-                    NumberOftwos++;
-                    break;
-                case 3:
-                    NumberOfthrees++;
-                    break;
-                case 4:
-                    NumberOffours++;
-                    break;
-                case 5:
-                    NumberOffives++;
-                    break;
-                case 6:
-                    NumberOfsix++;
-                    break;
-                default:
-                    Debug.Log("error in switch");
-                    break;
+                JokerCombo();
             }
+            else if (item.Number == BurnCost)
+            {
+                BurnCombo();
+            }
+            else if (item.Number == MachsanitSize)
+            {
+                MachsanitSizeCombo();
+            }
+            else if (item.Number == SplitCost)
+            {
+                SplitCombo();
+            }
+
         }
     }
 
+    private void SplitCombo()
+    {
+    }
+
+    private void MachsanitSizeCombo()
+    {
+    }
+
+    private void BurnCombo()
+    {
+    }
+
+    private void JokerCombo()
+    {
+    }
+
+    public void RestartGame()
+    {
+        SceneManager.LoadScene(0);
+    }
 
 }
