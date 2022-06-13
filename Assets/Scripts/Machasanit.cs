@@ -36,6 +36,7 @@ public class Machasanit : MonoBehaviour
     [Space]
     //public GameObject conButton;
     public Canvas gameCanvas;
+    public Button butt;
     public int Raws;
     public TextMeshProUGUI loose;
     [SerializeField] private int JokerCost;
@@ -118,9 +119,9 @@ public class Machasanit : MonoBehaviour
             if (TilesInMachsanit.Count < 6)
             {
                 TilesInMachsanit.Add(tile);
-
+                print("Inside");
                 Seder();
-
+                
             }
             tile._Interactable = false;
         }
@@ -128,7 +129,7 @@ public class Machasanit : MonoBehaviour
         if (TilesInMachsanit.Count == 6 && NumberOfOnes < 3 && NumberOftwos < 3 && NumberOfthrees < 3 && NumberOffours < 3 && NumberOffives < 3 && NumberOfsix < 3)
         {
             loose.gameObject.SetActive(true);
-            print(TilesInMachsanit.Count);
+            print("YouLoose");
         }
 
         // tile.gameObject.SetActive(false);
@@ -137,8 +138,8 @@ public class Machasanit : MonoBehaviour
     public void Seder()
     {
         // RummyThing();
-        CheckForMatch();
         SederInMachsanit();
+        CheckForMatch();
 
     }
     //void SederInMachsanit()
@@ -163,6 +164,7 @@ public class Machasanit : MonoBehaviour
                 if (item.Number == Mispar)
                 {
                     MacsanitMesudert.Add(item);
+                    
                     print(item);
                 }
             }
@@ -171,7 +173,7 @@ public class Machasanit : MonoBehaviour
     private void SederInMachsanit()
     {
         MacsanitMesudert.Clear();
-        for (int i = 5; i > 0; i--)
+        for (int i = 5; i >= 0; i--)
         {
             Sidur(NumberOfOnes, 1, i);
             Sidur(NumberOftwos, 2, i);
@@ -182,13 +184,12 @@ public class Machasanit : MonoBehaviour
 
 
         }
-        if (MacsanitMesudert.Count >= 1)
-        {
+
             for (int i = 0; i < MacsanitMesudert.Count; i++)
             {
                 MacsanitMesudert[i].transform.position = SpacesInMachsanit[i].transform.position;
             }
-        }
+        
         ComboMaker(NumberOfOnes, 1);
         ComboMaker(NumberOftwos, 2);
         ComboMaker(NumberOfthrees, 3);
@@ -213,10 +214,11 @@ public class Machasanit : MonoBehaviour
 
     public void ComboMaker(int numberOf, int imgNumber)
     {
-        if (numberOf >= 3)
-        {
 
-            foreach (var Combo in MacsanitMesudert)
+        if (numberOf >= 2)
+        {
+            
+            foreach (var Combo in TilesInMachsanit)
             {
                 if (Combo.Number == imgNumber)
                 {
@@ -244,6 +246,7 @@ public class Machasanit : MonoBehaviour
                 Destroy(item.gameObject);
                 counter++;
                 TilesInMachsanit.Remove(item);
+                
             }
         }
         Combos(counter);
@@ -300,26 +303,54 @@ public class Machasanit : MonoBehaviour
         NumberOffours = 0;
         NumberOffives = 0;
         NumberOfsix = 0;
-
         foreach (var item in TilesInMachsanit)
         {
-            if (item.Number == JokerCost)
+            switch (item.Number)
             {
-                JokerCombo();
-            }
-            else if (item.Number == BurnCost)
-            {
-                BurnCombo();
-            }
-            else if (item.Number == MachsanitSize)
-            {
-                MachsanitSizeCombo();
-            }
-            else if (item.Number == SplitCost)
-            {
-                SplitCombo();
-            }
+                case 1:
+                    NumberOfOnes++;
+                    break;
+                case 2:
+                    NumberOftwos++;
+                    break;
+                case 3:
+                    NumberOfthrees++;
+                    break;
+                case 4:
+                    NumberOffours++;
+                    break;
+                case 5:
+                    NumberOffives++;
+                    break;
+                case 6:
+                    NumberOfsix++;
+                    break;
+                default:
+                    Debug.Log("error in switch");
+                    break;
 
+
+            }
+            foreach (var Combo in TilesInMachsanit)
+            {
+                if (Combo.Number == JokerCost)
+                {
+                    JokerCombo();
+                }
+                else if (Combo.Number == BurnCost)
+                {
+                    BurnCombo();
+                }
+                else if (Combo.Number == MachsanitSize)
+                {
+                    MachsanitSizeCombo();
+                }
+                else if (Combo.Number == SplitCost)
+                {
+                    SplitCombo();
+                }
+
+            }
         }
     }
 
