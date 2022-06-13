@@ -31,6 +31,7 @@ public class Machasanit : MonoBehaviour
     [Space]
     public List<Tile> TilesInMachsanit = new List<Tile>();
     public List<Tile> MacsanitMesudert = new List<Tile>();
+    public List<GameObject> TilesGO = new List<GameObject>();
 
     [Header("Variables")]
     [Space]
@@ -123,11 +124,10 @@ public class Machasanit : MonoBehaviour
             if (TilesInMachsanit.Count < mSize)
             {
                 TilesInMachsanit.Add(tile);
-                print("Inside");
+                TilesGO.Add(tile.gameObject);
                 Seder();
-
+                tile._Interactable = false;
             }
-            tile._Interactable = false;
         }
 
         if (TilesInMachsanit.Count == mSize && NumberOfOnes < 3 && NumberOftwos < 3 && NumberOfthrees < 3 && NumberOffours < 3 && NumberOffives < 3 && NumberOfsix < 3)
@@ -186,7 +186,7 @@ public class Machasanit : MonoBehaviour
             Sidur(NumberOffives, 5, i);
             Sidur(NumberOfsix, 6, i);
 
-
+            CheckForJoker();
         }
 
         for (int i = 0; i < MacsanitMesudert.Count; i++)
@@ -200,7 +200,19 @@ public class Machasanit : MonoBehaviour
         ComboMaker(NumberOffours, 4);
         ComboMaker(NumberOffives, 5);
         ComboMaker(NumberOfsix, 6);
+       
     }
+
+    private void CheckForJoker()
+    {
+        NumberOfOnes++;
+        NumberOftwos++;
+        NumberOfthrees++;
+        NumberOffours++;
+        NumberOffives++;
+        NumberOfsix++;
+    }
+
     //public void ConfirmList()
     //{
     //    if (moreThen3)
@@ -266,7 +278,7 @@ public class Machasanit : MonoBehaviour
         switch (amount)
         {
             case 3:
-                print("Destoryed 3");
+               BurnCombo();
                 break;
             case 4:
                 MachsanitSizeCombo();
@@ -374,6 +386,12 @@ public class Machasanit : MonoBehaviour
 
     private void BurnCombo()
     {
+        MacsanitMesudert.Clear();
+        TilesInMachsanit.Clear();
+        foreach (var item in TilesGO)
+        {
+            Destroy(item);
+        }
     }
 
     private void JokerCombo()
