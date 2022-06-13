@@ -130,7 +130,7 @@ public class Machasanit : MonoBehaviour
             tile._Interactable = false;
         }
 
-        if (TilesInMachsanit.Count == 6 && NumberOfOnes < 3 && NumberOftwos < 3 && NumberOfthrees < 3 && NumberOffours < 3 && NumberOffives < 3 && NumberOfsix < 3)
+        if (TilesInMachsanit.Count == mSize && NumberOfOnes < 3 && NumberOftwos < 3 && NumberOfthrees < 3 && NumberOffours < 3 && NumberOffives < 3 && NumberOfsix < 3)
         {
             loose.gameObject.SetActive(true);
             print("YouLoose");
@@ -269,7 +269,7 @@ public class Machasanit : MonoBehaviour
                 print("Destoryed 3");
                 break;
             case 4:
-                print("Destoryed 4 with splash");
+                MachsanitSizeCombo();
                 break;
             case 5:
                 print("Destoryed 5 with fire");
@@ -368,6 +368,8 @@ public class Machasanit : MonoBehaviour
 
     private void MachsanitSizeCombo()
     {
+        mSize++;
+        print("Added Size");
     }
 
     private void BurnCombo()
