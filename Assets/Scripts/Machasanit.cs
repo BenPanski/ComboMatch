@@ -37,8 +37,12 @@ public class Machasanit : MonoBehaviour
     //public GameObject conButton;
     public Canvas gameCanvas;
     public Button butt;
+    public Button tileButton;
     public int Raws;
     public TextMeshProUGUI loose;
+    [SerializeField] private int mSize;
+    [Header("Combo Cost")]
+    [Space]
     [SerializeField] private int JokerCost;
     [SerializeField] private int BurnCost;
     [SerializeField] private int MachsanitSize;
@@ -116,12 +120,12 @@ public class Machasanit : MonoBehaviour
 
         if (tile._Interactable)
         {
-            if (TilesInMachsanit.Count < 6)
+            if (TilesInMachsanit.Count < mSize)
             {
                 TilesInMachsanit.Add(tile);
                 print("Inside");
                 Seder();
-                
+
             }
             tile._Interactable = false;
         }
@@ -138,9 +142,9 @@ public class Machasanit : MonoBehaviour
     public void Seder()
     {
         // RummyThing();
-        SederInMachsanit();
         CheckForMatch();
-
+        SederInMachsanit();
+        
     }
     //void SederInMachsanit()
     //{
@@ -164,7 +168,7 @@ public class Machasanit : MonoBehaviour
                 if (item.Number == Mispar)
                 {
                     MacsanitMesudert.Add(item);
-                    
+
                     print(item);
                 }
             }
@@ -173,7 +177,7 @@ public class Machasanit : MonoBehaviour
     private void SederInMachsanit()
     {
         MacsanitMesudert.Clear();
-        for (int i = 5; i >= 0; i--)
+        for (int i = mSize; i >= 0; i--)
         {
             Sidur(NumberOfOnes, 1, i);
             Sidur(NumberOftwos, 2, i);
@@ -185,11 +189,11 @@ public class Machasanit : MonoBehaviour
 
         }
 
-            for (int i = 0; i < MacsanitMesudert.Count; i++)
-            {
-                MacsanitMesudert[i].transform.position = SpacesInMachsanit[i].transform.position;
-            }
-        
+        for (int i = 0; i < MacsanitMesudert.Count; i++)
+        {
+            MacsanitMesudert[i].transform.position = SpacesInMachsanit[i].transform.position;
+        }
+
         ComboMaker(NumberOfOnes, 1);
         ComboMaker(NumberOftwos, 2);
         ComboMaker(NumberOfthrees, 3);
@@ -214,25 +218,29 @@ public class Machasanit : MonoBehaviour
 
     public void ComboMaker(int numberOf, int imgNumber)
     {
-
-        if (numberOf >= 2)
+        
+        if (numberOf >= 3)
         {
-            
-            foreach (var Combo in TilesInMachsanit)
+            foreach (var Combo in MacsanitMesudert)
             {
+
                 if (Combo.Number == imgNumber)
                 {
+
                     StartCoroutine(Wait(Combo));
-                    // Combo._Interactable = true;
+                    //Combo._Interactable = true;
+
                 }
             }
+
         }
 
 
     }
     public IEnumerator Wait(Tile tile)
     {
-        yield return new WaitForSeconds(0.15f);
+        
+        yield return new WaitForSeconds(0.25f);
         tile._Comboabol = true;
 
     }
@@ -246,7 +254,7 @@ public class Machasanit : MonoBehaviour
                 Destroy(item.gameObject);
                 counter++;
                 TilesInMachsanit.Remove(item);
-                
+
             }
         }
         Combos(counter);
