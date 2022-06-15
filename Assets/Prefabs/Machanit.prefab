@@ -8,7 +8,7 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 6402330432082976844}
+  - component: {fileID: 5485613932167789073}
   - component: {fileID: 7919045213453665804}
   - component: {fileID: 4163942272985363674}
   m_Layer: 0
@@ -18,20 +18,25 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &6402330432082976844
-Transform:
+--- !u!224 &5485613932167789073
+RectTransform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1577207782332722246}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.23, y: -3.44, z: 0}
-  m_LocalScale: {x: 0.37520736, y: 0.26706234, z: 0.09711357}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: -74, y: 86}
+  m_SizeDelta: {x: 10.03, y: 3.06}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!212 &7919045213453665804
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -102,3 +107,24 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
+  _Tiles: []
+  TilesInMachsanit: []
+  MacsanitMesudert: []
+  TilesGO: []
+  gameCanvas: {fileID: 0}
+  butt: {fileID: 0}
+  tileButton: {fileID: 0}
+  Raws: 0
+  loose: {fileID: 0}
+  mSize: 0
+  JokerCost: 0
+  BurnCost: 0
+  MachsanitSize: 0
+  SplitCost: 0
+  moreThen3: 0
+  NumberOfOnes: 0
+  NumberOftwos: 0
+  NumberOfthrees: 0
+  NumberOffours: 0
+  NumberOffives: 0
+  NumberOfsix: 0

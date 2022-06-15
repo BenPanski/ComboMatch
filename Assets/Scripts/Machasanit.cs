@@ -86,7 +86,7 @@ public class Machasanit : MonoBehaviour
                 newTile = Instantiate(item, new Vector3(item.transform.position.x, item.transform.position.y - i), Quaternion.identity);
                 newTile.GetComponent<Tile>().Layer = i + 2;
                 newTile.gameObject.transform.SetParent(gameCanvas.transform, true);
-                newTile.transform.localScale = new Vector3(25, 25, 25);
+                //newTile.transform.localScale = new Vector3(25, 25, 25);
                 _newTilesList.Add(newTile);
             }
 
@@ -113,7 +113,7 @@ public class Machasanit : MonoBehaviour
         //    moreThen3 = false;
 
         //}
-
+        //ComboMaker();
     }
     public void AddTile(Tile tile)
     {
@@ -164,7 +164,10 @@ public class Machasanit : MonoBehaviour
         {
             foreach (var item in TilesInMachsanit)
             {
-
+                if (item.isJoker)
+                {
+                    //send joker info
+                }
                 if (item.Number == Mispar)
                 {
                     MacsanitMesudert.Add(item);
@@ -186,7 +189,8 @@ public class Machasanit : MonoBehaviour
             Sidur(NumberOffives, 5, i);
             Sidur(NumberOfsix, 6, i);
 
-            CheckForJoker();
+            //
+            //CheckForJoker();
         }
 
         for (int i = 0; i < MacsanitMesudert.Count; i++)
@@ -200,7 +204,7 @@ public class Machasanit : MonoBehaviour
         ComboMaker(NumberOffours, 4);
         ComboMaker(NumberOffives, 5);
         ComboMaker(NumberOfsix, 6);
-       
+
     }
 
     private void CheckForJoker()
@@ -230,8 +234,7 @@ public class Machasanit : MonoBehaviour
 
     public void ComboMaker(int numberOf, int imgNumber)
     {
-        
-        if (numberOf >= 3)
+        if (numberOf > 2)
         {
             foreach (var Combo in MacsanitMesudert)
             {
@@ -246,9 +249,20 @@ public class Machasanit : MonoBehaviour
             }
 
         }
+        //foreach (var Combo in MacsanitMesudert)
+        //    {
+        //    //if (NumberOfOnes >=3)
+        //    //{
+        //    //    if (Combo.Number == 1)
+        //    //    {
+        //    //    StartCoroutine(Wait(Combo));
+        //    //    }
+        //    //}
 
-
+        //}
     }
+
+
     public IEnumerator Wait(Tile tile)
     {
         
@@ -403,4 +417,28 @@ public class Machasanit : MonoBehaviour
         SceneManager.LoadScene(0);
     }
 
+    public List<int> JokerNumInfo()
+    {
+        JokerLogic(NumberOfOnes, 1);
+        JokerLogic(NumberOftwos, 2);
+        JokerLogic(NumberOfthrees, 3);
+        JokerLogic(NumberOffours, 4);
+        JokerLogic(NumberOffives, 5);
+        JokerLogic(NumberOfsix, 6);
+        return JokerNumInfo();
+    }
+    void JokerLogic(int numberOf, int contains)
+    {
+        if (numberOf > 1)
+        {
+            JokerNumInfo().Add(contains);
+        }
+        else
+        {
+            if (JokerNumInfo().Contains(contains))
+            {
+                JokerNumInfo().Remove(contains);
+            }
+        }
+    }
 }

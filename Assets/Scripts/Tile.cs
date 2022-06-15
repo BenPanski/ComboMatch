@@ -13,6 +13,8 @@ public class Tile : MonoBehaviour
     [SerializeField] public MyEnum Color;
     [SerializeField] public bool _Comboabol = false;
     public bool _Interactable = true;
+    public bool isJoker;
+    float counter = 0;
     //[SerializeField] public int ID;
 
     public void ComboMaker()
@@ -21,6 +23,19 @@ public class Tile : MonoBehaviour
         if (_Comboabol && !_Interactable)
         {
             Machasanit.Instance.DestoryCombo(Number);
+        }
+
+    }
+    private void Update()
+    {
+        counter += (Time.deltaTime * 1.5f);
+        if (isJoker)
+        {
+          Number = (int)counter;           
+        }
+        if (counter > 6)
+        {
+            counter = 1;
         }
 
     }
