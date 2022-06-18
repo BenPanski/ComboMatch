@@ -31,7 +31,7 @@ public class Tile : MonoBehaviour
         counter += (Time.deltaTime * 1.5f);
         if (isJoker)
         {
-          Number = (int)counter;           
+          Number = (int)counter;     
         }
         if (counter > 6)
         {

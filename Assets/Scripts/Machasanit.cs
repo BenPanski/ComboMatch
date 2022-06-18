@@ -101,6 +101,16 @@ public class Machasanit : MonoBehaviour
 
     private void Update()
     {
+        for (int i = 0; i < MacsanitMesudert.Count; i++)
+        {
+            RectTransform startpos = (RectTransform)MacsanitMesudert[i].transform;
+            RectTransform endPos = (RectTransform)SpacesInMachsanit[i].transform;
+            //startpos.anchoredPosition = Vector3.Lerp(startpos.anchoredPosition3D, endPos.anchoredPosition3D, Time.deltaTime);
+            //startpos.anchoredPosition3D = endPos.anchoredPosition3D;
+            //startpos.transform.Translate(endPos.anchoredPosition);
+            FlyTo(startpos, endPos, 0.5f, 0);
+
+        }
         //if (NumberOfOnes >= 3 || NumberOftwos >= 3 || NumberOfthrees >= 3 || NumberOffours >= 3 || NumberOffives >= 3 || NumberOfsix >= 3)
         //{
         //    conButton.SetActive(true);
@@ -188,15 +198,11 @@ public class Machasanit : MonoBehaviour
             Sidur(NumberOffours, 4, i);
             Sidur(NumberOffives, 5, i);
             Sidur(NumberOfsix, 6, i);
-
-            //
+            
             //CheckForJoker();
         }
 
-        for (int i = 0; i < MacsanitMesudert.Count; i++)
-        {
-            MacsanitMesudert[i].transform.position = SpacesInMachsanit[i].transform.position;
-        }
+        
 
         ComboMaker(NumberOfOnes, 1);
         ComboMaker(NumberOftwos, 2);
@@ -206,7 +212,17 @@ public class Machasanit : MonoBehaviour
         ComboMaker(NumberOfsix, 6);
 
     }
-
+    private void FlyTo(RectTransform startPos, RectTransform endPos, float duration, float t)
+    {
+        t += Time.deltaTime;
+        
+        while (t < duration)
+        {
+            t += Time.deltaTime / duration;
+            startPos.anchoredPosition3D = Vector3.MoveTowards(startPos.anchoredPosition3D, endPos.anchoredPosition3D, t / duration);
+            continue;
+        }
+    }
     private void CheckForJoker()
     {
         NumberOfOnes++;
@@ -292,10 +308,10 @@ public class Machasanit : MonoBehaviour
         switch (amount)
         {
             case 3:
-               BurnCombo();
+                MachsanitSizeCombo();
                 break;
             case 4:
-                MachsanitSizeCombo();
+                BurnCombo();
                 break;
             case 5:
                 print("Destoryed 5 with fire");
