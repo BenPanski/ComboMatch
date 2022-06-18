@@ -31,8 +31,11 @@ public class Machasanit : MonoBehaviour
     [Space]
     public List<Tile> TilesInMachsanit = new List<Tile>();
     public List<Tile> MacsanitMesudert = new List<Tile>();
-    public List<GameObject> TilesGO = new List<GameObject>();
+    private List<GameObject> TilesGO = new List<GameObject>();
 
+    [Header("Active Tiles")]
+    [Space]
+    public List<Tile> _newTilesList = new List<Tile>();
     [Header("Variables")]
     [Space]
     //public GameObject conButton;
@@ -41,6 +44,8 @@ public class Machasanit : MonoBehaviour
     public Button tileButton;
     public int Raws;
     public TextMeshProUGUI loose;
+    public RectTransform winTile;
+    public bool goingright = false;
     [SerializeField] private int mSize;
     [Header("Combo Cost")]
     [Space]
@@ -67,7 +72,6 @@ public class Machasanit : MonoBehaviour
     {
         //Variables
         Tile newTile;
-        List<Tile> _newTilesList = new List<Tile>();
 
         //Shuffle Tiles
         for (int i = 0; i < _Tiles.Count; i++)
@@ -108,23 +112,42 @@ public class Machasanit : MonoBehaviour
             //startpos.anchoredPosition = Vector3.Lerp(startpos.anchoredPosition3D, endPos.anchoredPosition3D, Time.deltaTime);
             //startpos.anchoredPosition3D = endPos.anchoredPosition3D;
             //startpos.transform.Translate(endPos.anchoredPosition);
-            FlyTo(startpos, endPos, 0.5f, 0);
-
+            if (!CheckForWin())
+            {
+                FlyTo(startpos, endPos, 0.02f, 0);
+            }               
+            
         }
-        //if (NumberOfOnes >= 3 || NumberOftwos >= 3 || NumberOfthrees >= 3 || NumberOffours >= 3 || NumberOffives >= 3 || NumberOfsix >= 3)
-        //{
-        //    conButton.SetActive(true);
-        //    moreThen3 = true;
+        if (CheckForWin() == true)
+        {
+            foreach (var item in _newTilesList)
+            {
+                AddTile(item);
 
-        //}
-        //else
-        //{
-        //    conButton.SetActive(false);
-        //    moreThen3 = false;
+            }
+            for (int j = 0; j < MacsanitMesudert.Count; j++)
+            {
+                RectTransform wappa = (RectTransform)MacsanitMesudert[j].transform;
+                StartCoroutine(Winning(wappa, winTile, 0.05f, 0));
+            }
+        }
 
-        //}
-        //ComboMaker();
-    }
+
+
+            //if (NumberOfOnes >= 3 || NumberOftwos >= 3 || NumberOfthrees >= 3 || NumberOffours >= 3 || NumberOffives >= 3 || NumberOfsix >= 3)
+            //{
+            //    conButton.SetActive(true);
+            //    moreThen3 = true;
+
+            //}
+            //else
+            //{
+            //    conButton.SetActive(false);
+            //    moreThen3 = false;
+
+            //}
+            //ComboMaker();
+        }
     public void AddTile(Tile tile)
     {
 
@@ -154,7 +177,7 @@ public class Machasanit : MonoBehaviour
         // RummyThing();
         CheckForMatch();
         SederInMachsanit();
-        
+
     }
     //void SederInMachsanit()
     //{
@@ -198,11 +221,11 @@ public class Machasanit : MonoBehaviour
             Sidur(NumberOffours, 4, i);
             Sidur(NumberOffives, 5, i);
             Sidur(NumberOfsix, 6, i);
-            
+
             //CheckForJoker();
         }
 
-        
+
 
         ComboMaker(NumberOfOnes, 1);
         ComboMaker(NumberOftwos, 2);
@@ -215,7 +238,7 @@ public class Machasanit : MonoBehaviour
     private void FlyTo(RectTransform startPos, RectTransform endPos, float duration, float t)
     {
         t += Time.deltaTime;
-        
+
         while (t < duration)
         {
             t += Time.deltaTime / duration;
@@ -281,7 +304,7 @@ public class Machasanit : MonoBehaviour
 
     public IEnumerator Wait(Tile tile)
     {
-        
+
         yield return new WaitForSeconds(0.25f);
         tile._Comboabol = true;
 
@@ -294,8 +317,9 @@ public class Machasanit : MonoBehaviour
             if (item.Number == num)
             {
                 Destroy(item.gameObject);
-                counter++;
+                _newTilesList.Remove(item);
                 TilesInMachsanit.Remove(item);
+                counter++;
 
             }
         }
@@ -322,6 +346,7 @@ public class Machasanit : MonoBehaviour
             default:
                 break;
         }
+        CheckForWin();
     }
 
     /* private void RummyThing()
@@ -456,5 +481,38 @@ public class Machasanit : MonoBehaviour
                 JokerNumInfo().Remove(contains);
             }
         }
+    }
+
+    bool CheckForWin()
+    {
+
+        int emptySpaces = SpacesInMachsanit.Count - TilesInMachsanit.Count;
+        if (_newTilesList.Count <= emptySpaces)
+        {
+            return true;
+
+
+        }
+        else
+        {
+            return false;
+
+        }
+
+    }
+
+    private IEnumerator Winning(RectTransform startPos, RectTransform endPos, float duration, float t)
+    {
+        //goingright = true;
+        t += Time.deltaTime;
+
+        while (t < duration)
+        {
+            yield return new WaitForSeconds(0.2f);
+            t += Time.deltaTime / duration;
+            startPos.anchoredPosition3D = Vector3.MoveTowards(startPos.anchoredPosition3D, endPos.anchoredPosition3D, t / duration);
+           
+        }
+        
     }
 }
