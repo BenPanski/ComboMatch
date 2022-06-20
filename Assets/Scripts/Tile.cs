@@ -20,8 +20,14 @@ public class Tile : MonoBehaviour
 
     private void Start()
     {
+        SetLayer();
+    }
+    [ContextMenu("Set Layer")]
+    private void SetLayer()
+    {
         transform.SetSiblingIndex(Layer);
     }
+
     public void ComboMaker()
     {
 
