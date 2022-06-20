@@ -3288,9 +3288,49 @@ PrefabInstance:
       value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 4163942272985363674, guid: 85dc63b1b161dd347976a1f32603f022, type: 3}
+      propertyPath: MachsanitSlots.Array.size
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 4163942272985363674, guid: 85dc63b1b161dd347976a1f32603f022, type: 3}
       propertyPath: TilesInMachsanit.Array.size
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4163942272985363674, guid: 85dc63b1b161dd347976a1f32603f022, type: 3}
+      propertyPath: MachsanitSlots.Array.data[0]
+      value: 
+      objectReference: {fileID: 2117632063}
+    - target: {fileID: 4163942272985363674, guid: 85dc63b1b161dd347976a1f32603f022, type: 3}
+      propertyPath: MachsanitSlots.Array.data[1]
+      value: 
+      objectReference: {fileID: 1755435024}
+    - target: {fileID: 4163942272985363674, guid: 85dc63b1b161dd347976a1f32603f022, type: 3}
+      propertyPath: MachsanitSlots.Array.data[2]
+      value: 
+      objectReference: {fileID: 326116261}
+    - target: {fileID: 4163942272985363674, guid: 85dc63b1b161dd347976a1f32603f022, type: 3}
+      propertyPath: MachsanitSlots.Array.data[3]
+      value: 
+      objectReference: {fileID: 586900657}
+    - target: {fileID: 4163942272985363674, guid: 85dc63b1b161dd347976a1f32603f022, type: 3}
+      propertyPath: MachsanitSlots.Array.data[4]
+      value: 
+      objectReference: {fileID: 860842369}
+    - target: {fileID: 4163942272985363674, guid: 85dc63b1b161dd347976a1f32603f022, type: 3}
+      propertyPath: MachsanitSlots.Array.data[5]
+      value: 
+      objectReference: {fileID: 1077992508}
+    - target: {fileID: 4163942272985363674, guid: 85dc63b1b161dd347976a1f32603f022, type: 3}
+      propertyPath: MachsanitSlots.Array.data[6]
+      value: 
+      objectReference: {fileID: 1646689138}
+    - target: {fileID: 4163942272985363674, guid: 85dc63b1b161dd347976a1f32603f022, type: 3}
+      propertyPath: MachsanitSlots.Array.data[7]
+      value: 
+      objectReference: {fileID: 863194500}
+    - target: {fileID: 4163942272985363674, guid: 85dc63b1b161dd347976a1f32603f022, type: 3}
+      propertyPath: MachsanitSlots.Array.data[8]
+      value: 
+      objectReference: {fileID: 1179960549}
     - target: {fileID: 4163942272985363674, guid: 85dc63b1b161dd347976a1f32603f022, type: 3}
       propertyPath: SpacesInMachsanit.Array.size
       value: 9
