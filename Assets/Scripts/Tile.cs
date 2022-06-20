@@ -36,7 +36,7 @@ public class Tile : MonoBehaviour
         counter += (Time.deltaTime * 1.5f);
         if (isJoker)
         {
-          Number = (int)counter;     
+            Number = (int)counter;
         }
         if (counter > 6)
         {
@@ -45,6 +45,26 @@ public class Tile : MonoBehaviour
 
     }
 
+
+    private void ClickOnTile()
+    {
+
+
+    }
+
+
+    public IEnumerator FlyToCoru(RectTransform startPos, RectTransform endPos, float duration)
+    {
+        float t = 0;
+        Vector2 spos = startPos.anchoredPosition;
+        while (t < duration)
+        {
+            yield return new WaitForEndOfFrame();
+            startPos.anchoredPosition = Vector2.Lerp(spos, endPos.anchoredPosition, t / duration);
+            print("Inside");
+            t += Time.deltaTime;
+        }
+    }
 
 
 }
