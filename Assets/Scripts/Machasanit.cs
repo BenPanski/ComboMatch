@@ -55,24 +55,28 @@ public class Machasanit : MonoBehaviour
     [SerializeField] private int SplitCost;
 
 
-
     //public List<Tile> sortedTileNums;
     //public List<Tile> sortedTileColors;
     [Header("Counters")]
     [Space]
     public bool moreThen3;
     public int NumberOfOnes, NumberOftwos, NumberOfthrees, NumberOffours, NumberOffives, NumberOfsix;
+    public ParticleSystem winParticle;
 
+
+    RectTransform startpos;
+    RectTransform endPos;
     private void Start()
     {
         StartGame();
+        
     }
     private void Update()
     {
         for (int i = 0; i < MacsanitMesudert.Count; i++)
         {
-            RectTransform startpos = (RectTransform)MacsanitMesudert[i].transform;
-            RectTransform endPos = (RectTransform)MachsanitSlots[i].transform;
+             startpos = (RectTransform)MacsanitMesudert[i].transform;
+             endPos = (RectTransform)MachsanitSlots[i].transform;
             //startpos.anchoredPosition = Vector3.Lerp(startpos.anchoredPosition3D, endPos.anchoredPosition3D, Time.deltaTime);
             //startpos.anchoredPosition3D = endPos.anchoredPosition3D;
             //startpos.transform.Translate(endPos.anchoredPosition);
@@ -80,23 +84,16 @@ public class Machasanit : MonoBehaviour
             {
                 FlyTo(startpos, endPos, 0.02f, 0);
             }
-
+            if (CheckForWin())
+            {
+                WinAnimation();
+            }
         }
-        if (CheckForWin() == true)
+
+        if (Input.GetKeyDown("b"))
         {
-            foreach (var item in TilesInBoard)
-            {
-                AddTile(item);
-
-            }
-            for (int j = 0; j < MacsanitMesudert.Count; j++)
-            {
-                RectTransform wappa = (RectTransform)MacsanitMesudert[j].transform;
-                StartCoroutine(Winning(wappa, winTile, 0.05f, 0));
-            }
+            print("wop");
         }
-
-
 
         //if (NumberOfOnes >= 3 || NumberOftwos >= 3 || NumberOfthrees >= 3 || NumberOffours >= 3 || NumberOffives >= 3 || NumberOfsix >= 3)
         //{
@@ -112,6 +109,29 @@ public class Machasanit : MonoBehaviour
         //}
         //ComboMaker();
     }
+    private void FixedUpdate()
+    {
+
+    }
+
+    private void WinAnimation()
+    {
+        foreach (var item in TilesInBoard)
+        {
+            AddTile(item);
+        }
+        foreach (var item in TilesInMachsanit)
+        {
+          RectTransform someting =(RectTransform)item.transform;
+            FlyTo(someting, winTile, 0.02f, 0);
+        }
+        for (int j = 0; j < TilesInMachsanit.Count; j++)
+        {
+            
+
+        }
+    }
+
     private void StartGame()
     {
         //Variables
@@ -156,7 +176,7 @@ public class Machasanit : MonoBehaviour
         {
             if (TilesInMachsanit.Count < mSize)
             {
-                TilesInMachsanit.Add(tile);
+                TilesInMachsanit.Add(tile);          
                 TilesGO.Add(tile.gameObject);
                 Seder();
                 tile._Interactable = false;
@@ -485,34 +505,14 @@ public class Machasanit : MonoBehaviour
 
     bool CheckForWin()
     {
-
-        //int emptySpaces = MachsanitSlots.Count -    ;
-        if (TilesInBoard.Count <= TilesInMachsanit.Count)
+         int emptySpaces =  MachsanitSlots.Count - TilesInMachsanit.Count;
+        if (TilesInBoard.Count <= emptySpaces)
         {
-            return true;
-
-
+            return  true;
         }
         else
         {
             return false;
-
         }
-
-    }
-
-    private IEnumerator Winning(RectTransform startPos, RectTransform endPos, float duration, float t)
-    {
-        //goingright = true;
-        t += Time.deltaTime;
-
-        while (t < duration)
-        {
-            yield return new WaitForSeconds(0.2f);
-            t += Time.deltaTime / duration;
-            startPos.anchoredPosition3D = Vector3.MoveTowards(startPos.anchoredPosition3D, endPos.anchoredPosition3D, t / duration);
-           
-        }
-        
     }
 }

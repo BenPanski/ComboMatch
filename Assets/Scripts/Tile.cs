@@ -17,6 +17,11 @@ public class Tile : MonoBehaviour
     float counter = 0;
     //[SerializeField] public int ID;
 
+
+    private void Start()
+    {
+        transform.SetSiblingIndex(Layer);
+    }
     public void ComboMaker()
     {
 
