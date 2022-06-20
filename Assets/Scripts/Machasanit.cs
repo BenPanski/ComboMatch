@@ -16,7 +16,7 @@ public class Machasanit : MonoBehaviour
 
         if (Instance != null && Instance != this)
         {
-            Destroy(this);
+            Destroy(gameObject);
         }
         else
         {
@@ -64,58 +64,19 @@ public class Machasanit : MonoBehaviour
     public ParticleSystem winParticle;
 
 
-    RectTransform startpos;
-    RectTransform endPos;
+    public RectTransform startpos;
+    public RectTransform endPos;
     private void Start()
     {
-        StartGame();
+        //StartGame();
 
     }
+
     private void Update()
     {
-        CheckForWin();
-        for (int i = 0; i < MacsanitMesudert.Count; i++)
-        {
-            startpos = (RectTransform)MacsanitMesudert[i].transform;
-            endPos = (RectTransform)MachsanitSlots[i].transform;
-            if (!CheckForWin())
-            {
-                FlyTo(startpos, endPos, 0.02f, 0);
-            }
-            if (CheckForWin())
-            {
-               StartCoroutine(WinAnimation());
-            }
-        }
-
-        if (CheckForWin())
-        {
-        }
-        //if (finishsorting)
-        //{
-        //  List<Tile> TilesLeft = new List<Tile>();
-
-
-
-
-        //}
-        //if (NumberOfOnes >= 3 || NumberOftwos >= 3 || NumberOfthrees >= 3 || NumberOffours >= 3 || NumberOffives >= 3 || NumberOfsix >= 3)
-        //{
-        //    conButton.SetActive(true);
-        //    moreThen3 = true;
-
-        //}
-        //else
-        //{
-        //    conButton.SetActive(false);
-        //    moreThen3 = false;
-
-        //}
-        //ComboMaker();
     }
 
-
-    private IEnumerator WinAnimation()
+    public IEnumerator WinAnimation()
     {
         bool added = false;
         if (!added)
@@ -128,7 +89,8 @@ public class Machasanit : MonoBehaviour
         added = true;
         foreach (var test in TilesInMachsanit)
         {
-            FlyTo((RectTransform)test.transform, winTile, 0.06f, 0);
+            //FlyTo((RectTransform)test.transform, winTile, 0.06f, 0);
+            StartCoroutine(FlyToCoru((RectTransform)test.transform, winTile, 1.5f));
         }
         yield return new WaitForSeconds(1f);
         TilesInMachsanit[0].ComboMaker();
@@ -154,7 +116,7 @@ public class Machasanit : MonoBehaviour
         {
             for (int i = 0; i < Raws; i++)
             {
-                newTile = Instantiate(item, new Vector3(item.transform.position.x, item.transform.position.y - i), Quaternion.identity);
+                newTile = Instantiate(item, new Vector2(item.transform.position.x, item.transform.position.y - i), Quaternion.identity);
                 newTile.GetComponent<Tile>().Layer = i + 2;
                 newTile.gameObject.transform.SetParent(gameCanvas.transform, true);
                 //newTile.transform.localScale = new Vector3(25, 25, 25);
@@ -165,7 +127,7 @@ public class Machasanit : MonoBehaviour
 
         foreach (var sort in TilesInBoard)
         {
-            sort.transform.position = new Vector3(sort.transform.position.x, sort.transform.position.y * Random.Range(0.2f, 0.4f));
+            sort.transform.position = new Vector2(sort.transform.position.x, sort.transform.position.y * Random.Range(0.2f, 0.4f));
         }
 
     }
@@ -173,15 +135,21 @@ public class Machasanit : MonoBehaviour
 
     public void AddTile(Tile tile)
     {
-
-
         if (tile._Interactable)
         {
+            //startpos = (RectTransform)tile.transform;
             if (TilesInMachsanit.Count < mSize)
             {
                 TilesInMachsanit.Add(tile);
                 TilesGO.Add(tile.gameObject);
                 Seder();
+                RectTransform tileAnchot = tile.transform.GetComponent<RectTransform>();
+                if (!CheckForWin())
+                {
+                    //FlyTo(startpos, endPos, 0.02f, 0);
+                    StartCoroutine(tile.FlyToCoru(tileAnchot, (RectTransform)MachsanitSlots[TilesInMachsanit.Count - 1].transform, 1.5f));
+                }
+                //  Seder();
                 tile._Interactable = false;
             }
         }
@@ -228,7 +196,7 @@ public class Machasanit : MonoBehaviour
                 {
                     MacsanitMesudert.Add(item);
 
-                    print(item);
+                    // print(item);
                 }
             }
         }
@@ -265,9 +233,21 @@ public class Machasanit : MonoBehaviour
         if (t < duration)
         {
             t += Time.deltaTime / duration;
-            startPos.anchoredPosition = Vector3.MoveTowards(startPos.anchoredPosition, endPos.anchoredPosition, t / duration);
+            startPos.anchoredPosition = Vector2.MoveTowards(startPos.anchoredPosition, endPos.anchoredPosition, t / duration);
         }
 
+    }
+    public IEnumerator FlyToCoru(RectTransform startPos, RectTransform endPos, float duration)
+    {
+        float t = 0;
+        Vector2 spos = startPos.anchoredPosition;
+        while (t < duration)
+        {
+            yield return new WaitForEndOfFrame();
+            startpos.anchoredPosition = Vector2.Lerp(spos, endPos.anchoredPosition, t / duration);
+            print("Inside");
+            t += Time.deltaTime;
+        }
     }
     private void CheckForJoker()
     {
@@ -506,7 +486,7 @@ public class Machasanit : MonoBehaviour
         }
     }
 
-    bool CheckForWin()
+    public bool CheckForWin()
     {
         int emptySpaces = MachsanitSlots.Count - TilesInMachsanit.Count;
         if (TilesInBoard.Count <= emptySpaces)
