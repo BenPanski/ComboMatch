@@ -53,7 +53,7 @@ public class Machasanit : MonoBehaviour
     [SerializeField] private int BurnCost;
     [SerializeField] private int MachsanitSize;
     [SerializeField] private int SplitCost;
-
+    bool finishsorting = false;
 
     //public List<Tile> sortedTileNums;
     //public List<Tile> sortedTileColors;
@@ -69,32 +69,36 @@ public class Machasanit : MonoBehaviour
     private void Start()
     {
         StartGame();
-        
+
     }
     private void Update()
     {
+        CheckForWin();
         for (int i = 0; i < MacsanitMesudert.Count; i++)
         {
-             startpos = (RectTransform)MacsanitMesudert[i].transform;
-             endPos = (RectTransform)MachsanitSlots[i].transform;
-            //startpos.anchoredPosition = Vector3.Lerp(startpos.anchoredPosition3D, endPos.anchoredPosition3D, Time.deltaTime);
-            //startpos.anchoredPosition3D = endPos.anchoredPosition3D;
-            //startpos.transform.Translate(endPos.anchoredPosition);
+            startpos = (RectTransform)MacsanitMesudert[i].transform;
+            endPos = (RectTransform)MachsanitSlots[i].transform;
             if (!CheckForWin())
             {
                 FlyTo(startpos, endPos, 0.02f, 0);
             }
             if (CheckForWin())
             {
-                WinAnimation();
+               StartCoroutine(WinAnimation());
             }
         }
 
-        if (Input.GetKeyDown("b"))
+        if (CheckForWin())
         {
-            print("wop");
         }
+        //if (finishsorting)
+        //{
+        //  List<Tile> TilesLeft = new List<Tile>();
 
+
+
+
+        //}
         //if (NumberOfOnes >= 3 || NumberOftwos >= 3 || NumberOfthrees >= 3 || NumberOffours >= 3 || NumberOffives >= 3 || NumberOfsix >= 3)
         //{
         //    conButton.SetActive(true);
@@ -109,27 +113,26 @@ public class Machasanit : MonoBehaviour
         //}
         //ComboMaker();
     }
-    private void FixedUpdate()
+
+
+    private IEnumerator WinAnimation()
     {
-
-    }
-
-    private void WinAnimation()
-    {
-        foreach (var item in TilesInBoard)
+        bool added = false;
+        if (!added)
         {
-            AddTile(item);
+            foreach (var item in TilesInBoard)
+            {
+                AddTile(item);
+            }
         }
-        foreach (var item in TilesInMachsanit)
+        added = true;
+        foreach (var test in TilesInMachsanit)
         {
-          RectTransform someting =(RectTransform)item.transform;
-            FlyTo(someting, winTile, 0.02f, 0);
+            FlyTo((RectTransform)test.transform, winTile, 0.06f, 0);
         }
-        for (int j = 0; j < TilesInMachsanit.Count; j++)
-        {
-            
-
-        }
+        yield return new WaitForSeconds(1f);
+        TilesInMachsanit[0].ComboMaker();
+        winParticle.Play();
     }
 
     private void StartGame()
@@ -167,7 +170,7 @@ public class Machasanit : MonoBehaviour
 
     }
 
-    
+
     public void AddTile(Tile tile)
     {
 
@@ -176,7 +179,7 @@ public class Machasanit : MonoBehaviour
         {
             if (TilesInMachsanit.Count < mSize)
             {
-                TilesInMachsanit.Add(tile);          
+                TilesInMachsanit.Add(tile);
                 TilesGO.Add(tile.gameObject);
                 Seder();
                 tile._Interactable = false;
@@ -259,12 +262,12 @@ public class Machasanit : MonoBehaviour
     {
         t += Time.deltaTime;
 
-        while (t < duration)
+        if (t < duration)
         {
             t += Time.deltaTime / duration;
-            startPos.anchoredPosition3D = Vector3.MoveTowards(startPos.anchoredPosition3D, endPos.anchoredPosition3D, t / duration);
-            continue;
+            startPos.anchoredPosition = Vector3.MoveTowards(startPos.anchoredPosition, endPos.anchoredPosition, t / duration);
         }
+
     }
     private void CheckForJoker()
     {
@@ -505,10 +508,10 @@ public class Machasanit : MonoBehaviour
 
     bool CheckForWin()
     {
-         int emptySpaces =  MachsanitSlots.Count - TilesInMachsanit.Count;
+        int emptySpaces = MachsanitSlots.Count - TilesInMachsanit.Count;
         if (TilesInBoard.Count <= emptySpaces)
         {
-            return  true;
+            return true;
         }
         else
         {
