@@ -73,7 +73,7 @@ public class Machasanit : MonoBehaviour
     }
     private void Update()
     {
-        CheckForWin();
+        //CheckForWin();
         for (int i = 0; i < MacsanitMesudert.Count; i++)
         {
             startpos = (RectTransform)MacsanitMesudert[i].transform;
@@ -82,14 +82,10 @@ public class Machasanit : MonoBehaviour
             {
                 FlyTo(startpos, endPos, 0.02f, 0);
             }
-            if (CheckForWin())
+            else
             {
                StartCoroutine(WinAnimation());
             }
-        }
-
-        if (CheckForWin())
-        {
         }
         //if (finishsorting)
         //{
@@ -131,7 +127,10 @@ public class Machasanit : MonoBehaviour
             FlyTo((RectTransform)test.transform, winTile, 0.06f, 0);
         }
         yield return new WaitForSeconds(1f);
-        TilesInMachsanit[0].ComboMaker();
+        if (TilesInMachsanit.Count >0)
+        {
+            TilesInMachsanit[0].ComboMaker();
+        }
         winParticle.Play();
     }
 
@@ -228,7 +227,7 @@ public class Machasanit : MonoBehaviour
                 {
                     MacsanitMesudert.Add(item);
 
-                    print(item);
+                    //print(item);
                 }
             }
         }
@@ -355,13 +354,13 @@ public class Machasanit : MonoBehaviour
         switch (amount)
         {
             case 3:
-                MachsanitSizeCombo();
+                
                 break;
             case 4:
                 BurnCombo();
                 break;
             case 5:
-                print("Destoryed 5 with fire");
+                MachsanitSizeCombo();
                 break;
             case 6:
                 print("GG");
