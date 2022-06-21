@@ -24,7 +24,7 @@ public class Machasanit : MonoBehaviour
         }
     }
     [Header("Inisialze Lists")]
-    [SerializeField] List<RectTransform> MachsanitSlots;
+    public List<RectTransform> MachsanitSlots;
     public List<Tile> _Tiles = new List<Tile>();
 
     [Header("RunTime Lists")]
@@ -53,7 +53,6 @@ public class Machasanit : MonoBehaviour
     [SerializeField] private int BurnCost;
     [SerializeField] private int MachsanitSize;
     [SerializeField] private int SplitCost;
-    bool finishsorting = false;
 
     //public List<Tile> sortedTileNums;
     //public List<Tile> sortedTileColors;
@@ -64,8 +63,7 @@ public class Machasanit : MonoBehaviour
     public ParticleSystem winParticle;
 
 
-    RectTransform startpos;
-    RectTransform endPos;
+
     private void Start()
     {
         StartGame();
@@ -73,41 +71,10 @@ public class Machasanit : MonoBehaviour
     }
     private void Update()
     {
-        //CheckForWin();
-        for (int i = 0; i < MacsanitMesudert.Count; i++)
+        if (CheckForWin())
         {
-            startpos = (RectTransform)MacsanitMesudert[i].transform;
-            endPos = (RectTransform)MachsanitSlots[i].transform;
-            if (!CheckForWin())
-            {
-                FlyTo(startpos, endPos, 0.02f, 0);
-            }
-            else
-            {
-               StartCoroutine(WinAnimation());
-            }
+            StartCoroutine(WinAnimation());
         }
-        //if (finishsorting)
-        //{
-        //  List<Tile> TilesLeft = new List<Tile>();
-
-
-
-
-        //}
-        //if (NumberOfOnes >= 3 || NumberOftwos >= 3 || NumberOfthrees >= 3 || NumberOffours >= 3 || NumberOffives >= 3 || NumberOfsix >= 3)
-        //{
-        //    conButton.SetActive(true);
-        //    moreThen3 = true;
-
-        //}
-        //else
-        //{
-        //    conButton.SetActive(false);
-        //    moreThen3 = false;
-
-        //}
-        //ComboMaker();
     }
 
 
@@ -116,21 +83,24 @@ public class Machasanit : MonoBehaviour
         bool added = false;
         if (!added)
         {
+           
             foreach (var item in TilesInBoard)
             {
                 AddTile(item);
             }
-        }
-        added = true;
-        foreach (var test in TilesInMachsanit)
-        {
-            FlyTo((RectTransform)test.transform, winTile, 0.06f, 0);
+            added = true;
         }
         yield return new WaitForSeconds(1f);
-        if (TilesInMachsanit.Count >0)
+        foreach (var test in TilesInMachsanit)
         {
-            TilesInMachsanit[0].ComboMaker();
+            StartCoroutine(test.FlyToED(1f));
+
         }
+        yield return new WaitForSeconds(1f);
+        //if (TilesInMachsanit.Count >0)
+        //{
+        //    TilesInMachsanit[0].ComboMaker();
+        //}
         winParticle.Play();
     }
 
@@ -181,6 +151,7 @@ public class Machasanit : MonoBehaviour
                 TilesInMachsanit.Add(tile);
                 TilesGO.Add(tile.gameObject);
                 Seder();
+                StartCoroutine(tile.FlyToCoru(1.5f));            
                 tile._Interactable = false;
             }
         }
@@ -199,7 +170,7 @@ public class Machasanit : MonoBehaviour
         // RummyThing();
         CheckForMatch();
         SederInMachsanit();
-
+        
     }
     //void SederInMachsanit()
     //{
@@ -246,7 +217,7 @@ public class Machasanit : MonoBehaviour
 
             //CheckForJoker();
         }
-
+        
 
 
         ComboMaker(NumberOfOnes, 1);
@@ -261,11 +232,12 @@ public class Machasanit : MonoBehaviour
     {
         t += Time.deltaTime;
 
-        if (t < duration)
+        while (t < duration)
         {
             t += Time.deltaTime / duration;
             startPos.anchoredPosition = Vector3.MoveTowards(startPos.anchoredPosition, endPos.anchoredPosition, t / duration);
         }
+           
 
     }
     private void CheckForJoker()
@@ -342,11 +314,12 @@ public class Machasanit : MonoBehaviour
                 TilesInBoard.Remove(item);
                 TilesInMachsanit.Remove(item);
                 counter++;
-
+                StartCoroutine(item.FlyToCoru(1.5f));
             }
         }
         Combos(counter);
         Seder();
+
     }
 
     public void Combos(int amount)
@@ -516,5 +489,10 @@ public class Machasanit : MonoBehaviour
         {
             return false;
         }
+    }
+
+    private IEnumerator StopFlying()
+    {
+        yield return new WaitForSeconds(0.5f);
     }
 }
