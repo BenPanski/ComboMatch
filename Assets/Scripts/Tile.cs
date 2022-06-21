@@ -16,6 +16,8 @@ public class Tile : MonoBehaviour
     public bool _Interactable = true;
     public bool isJoker;
     float counter = 0;
+
+    public GameObject VFX;
     //[SerializeField] public int ID;
 
 
@@ -41,19 +43,24 @@ public class Tile : MonoBehaviour
     }
     private void Update()
     {
+<<<<<<< HEAD
         counter += (Time.deltaTime * 1.5f);
         if (isJoker)
         {
             Number = (int)counter;
         }
         if (counter > 6)
+=======
+        if (_Comboabol)
+>>>>>>> test
         {
-            counter = 1;
+            StartCoroutine(waitsec());
         }
 
     }
 
 
+<<<<<<< HEAD
     private void ClickOnTile()
     {
 
@@ -82,4 +89,11 @@ public class Tile : MonoBehaviour
     }
 
 
+=======
+    private IEnumerator waitsec()
+    {
+        yield return new WaitForSeconds(1f);
+        VFX.SetActive(true);
+    }
+>>>>>>> test
 }
