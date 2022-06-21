@@ -12,6 +12,7 @@ public class Tile : MonoBehaviour
     [SerializeField] public int Number;
     [SerializeField] public MyEnum Color;
     [SerializeField] public bool _Comboabol = false;
+    public Machasanit m;
     public bool _Interactable = true;
     public bool isJoker;
     float counter = 0;
@@ -21,6 +22,7 @@ public class Tile : MonoBehaviour
     private void Start()
     {
         SetLayer();
+        m = FindObjectOfType<Machasanit>();
     }
     [ContextMenu("Set Layer")]
     private void SetLayer()
@@ -66,14 +68,14 @@ public class Tile : MonoBehaviour
         {
             yield return new WaitForEndOfFrame();
 
-            for (int i = 0; i < Machasanit.Instance.MacsanitMesudert.Count; i++)
+            for (int i = 0; i < m.MacsanitMesudert.Count; i++)
             {
-                startPos = (RectTransform)Machasanit.Instance.MacsanitMesudert[i].transform;
-                endPos = (RectTransform)Machasanit.Instance.MachsanitSlots[i].transform;
+                startPos = (RectTransform)m.MacsanitMesudert[i].transform;
+                endPos = (RectTransform)m.MachsanitSlots[i].transform;
 
+                t += Time.deltaTime;
                 startPos.anchoredPosition = Vector2.Lerp(startPos.anchoredPosition, endPos.anchoredPosition, t / duration);
                 //print("Inside");
-                t += Time.deltaTime;
             }
             //duration = 0;
         }

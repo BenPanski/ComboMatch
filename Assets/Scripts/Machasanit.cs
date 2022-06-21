@@ -76,7 +76,7 @@ public class Machasanit : MonoBehaviour
     {
         if (CheckForWin() == true)
         {
-            StartCoroutine(WinAnimation());
+          //  StartCoroutine(WinAnimation());
         }
     }
 
@@ -124,7 +124,7 @@ public class Machasanit : MonoBehaviour
                 newTile = Instantiate(item, new Vector2(item.transform.position.x, item.transform.position.y - i), Quaternion.identity);
                 newTile.GetComponent<Tile>().Layer = i + 2;
                 newTile.gameObject.transform.SetParent(gameCanvas.transform, true);
-                //newTile.transform.localScale = new Vector3(25, 25, 25);
+                newTile.transform.localScale = new Vector3(2, 2, 2);
                 TilesInBoard.Add(newTile);
             }
 
@@ -146,16 +146,16 @@ public class Machasanit : MonoBehaviour
             if (TilesInMachsanit.Count < mSize)
             {
                 TilesInMachsanit.Add(tile);
-                TilesGO.Add(tile.gameObject);
+                //TilesGO.Add(tile.gameObject);
                 Seder();
+                tile._Interactable = false;
                 RectTransform tileAnchot = tile.transform.GetComponent<RectTransform>();
                 if (!CheckForWin())
                 {
                     //FlyTo(startpos, endPos, 0.02f, 0);
-                    StartCoroutine(tile.FlyToCoru(tileAnchot, (RectTransform)MachsanitSlots[TilesInMachsanit.Count - 1].transform, 1f));
+                    StartCoroutine(tile.FlyToCoru(tileAnchot, (RectTransform)MachsanitSlots[TilesInMachsanit.Count - 1].transform, 10f));
                 }
-                //  Seder();
-                tile._Interactable = false;
+                //Seder();
             }
         }
 
@@ -313,7 +313,7 @@ public class Machasanit : MonoBehaviour
     public IEnumerator Wait(Tile tile)
     {
 
-        yield return new WaitForSeconds(0.25f);
+        yield return new WaitForSeconds(0.5f);
         tile._Comboabol = true;
 
     }
@@ -340,13 +340,13 @@ public class Machasanit : MonoBehaviour
         switch (amount)
         {
             case 3:
-                MachsanitSizeCombo();
+                print("Destoyed 3");
                 break;
             case 4:
                 BurnCombo();
                 break;
             case 5:
-                print("Destoryed 5 with fire");
+                MachsanitSizeCombo();
                 break;
             case 6:
                 print("GG");
@@ -354,6 +354,7 @@ public class Machasanit : MonoBehaviour
             default:
                 break;
         }
+        Seder();
         CheckForWin();
     }
 
@@ -493,7 +494,7 @@ public class Machasanit : MonoBehaviour
 
     public bool CheckForWin()
     {
-        int emptySpaces = MachsanitSlots.Count - TilesInMachsanit.Count;
+        int emptySpaces = mSize - TilesInMachsanit.Count;
         if (TilesInBoard.Count <= emptySpaces)
         {
             return true;
