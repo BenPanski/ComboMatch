@@ -24,7 +24,7 @@ public class Machasanit : MonoBehaviour
         }
     }
     [Header("Inisialze Lists")]
-    [SerializeField] List<RectTransform> MachsanitSlots;
+    [SerializeField] public List<RectTransform> MachsanitSlots;
     public List<Tile> _Tiles = new List<Tile>();
 
     [Header("RunTime Lists")]
@@ -74,10 +74,15 @@ public class Machasanit : MonoBehaviour
 
     private void Update()
     {
+        if (CheckForWin() == true)
+        {
+            StartCoroutine(WinAnimation());
+        }
     }
 
     public IEnumerator WinAnimation()
     {
+        Debug.Log("Winning");
         bool added = false;
         if (!added)
         {
@@ -147,7 +152,7 @@ public class Machasanit : MonoBehaviour
                 if (!CheckForWin())
                 {
                     //FlyTo(startpos, endPos, 0.02f, 0);
-                    StartCoroutine(tile.FlyToCoru(tileAnchot, (RectTransform)MachsanitSlots[TilesInMachsanit.Count - 1].transform, 1.5f));
+                    StartCoroutine(tile.FlyToCoru(tileAnchot, (RectTransform)MachsanitSlots[TilesInMachsanit.Count - 1].transform, 1f));
                 }
                 //  Seder();
                 tile._Interactable = false;

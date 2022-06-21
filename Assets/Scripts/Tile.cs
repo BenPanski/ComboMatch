@@ -56,13 +56,20 @@ public class Tile : MonoBehaviour
     public IEnumerator FlyToCoru(RectTransform startPos, RectTransform endPos, float duration)
     {
         float t = 0;
-        Vector2 spos = startPos.anchoredPosition;
         while (t < duration)
         {
             yield return new WaitForEndOfFrame();
-            startPos.anchoredPosition = Vector2.Lerp(spos, endPos.anchoredPosition, t / duration);
-            print("Inside");
-            t += Time.deltaTime;
+
+            for (int i = 0; i < Machasanit.Instance.MacsanitMesudert.Count; i++)
+            {
+                startPos = (RectTransform)Machasanit.Instance.MacsanitMesudert[i].transform;
+                endPos = (RectTransform)Machasanit.Instance.MachsanitSlots[i].transform;
+
+                startPos.anchoredPosition = Vector2.Lerp(startPos.anchoredPosition, endPos.anchoredPosition, t / duration);
+                //print("Inside");
+                t += Time.deltaTime;
+            }
+            //duration = 0;
         }
     }
 
