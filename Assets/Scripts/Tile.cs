@@ -8,17 +8,23 @@ public enum MyEnum
 }
 public class Tile : MonoBehaviour
 {
+    [Header("Counters")]
+    [Space]
     [SerializeField] public int Layer;
     [SerializeField] public int Number;
     [SerializeField] public MyEnum Color;
     [SerializeField] public bool _Comboabol = false;
     public bool _Interactable = true;
     public bool isJoker;
+    public bool _GettingDestoryed = false;
     Machasanit m;
-
     public GameObject VFX;
+    [Header("Counters")]
+    [Space]
+    public float encloseSpeed;
+    public float smallestSize;
     //[SerializeField] public int ID;
-
+    
 
     private void Start()
     {
@@ -41,6 +47,18 @@ public class Tile : MonoBehaviour
             StartCoroutine(waitsec());
         }
 
+    }
+
+    private void FixedUpdate()
+    {
+        if (_GettingDestoryed)
+        {
+        transform.localScale -= new Vector3(encloseSpeed, encloseSpeed, encloseSpeed);
+        }
+        if (transform.localScale.x < smallestSize)
+        {
+            Destroy(gameObject);
+        }
     }
 
     public IEnumerator FlyToCoru(float duration)

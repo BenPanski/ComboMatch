@@ -66,7 +66,7 @@ public class Machasanit : MonoBehaviour
 
     private void Start()
     {
-        StartGame();
+       StartGame();
 
     }
     private void Update()
@@ -310,7 +310,9 @@ public class Machasanit : MonoBehaviour
         {
             if (item.Number == num)
             {
-                Destroy(item.gameObject);
+                item._GettingDestoryed = true;
+                StartCoroutine(DestroyAnim());
+                //Destroy(item.gameObject);
                 TilesInBoard.Remove(item);
                 TilesInMachsanit.Remove(item);
                 counter++;
@@ -322,6 +324,10 @@ public class Machasanit : MonoBehaviour
 
     }
 
+    IEnumerator DestroyAnim()
+    {
+        yield return new WaitForSeconds(20f);
+    }
     public void Combos(int amount)
     {
         switch (amount)
@@ -431,6 +437,7 @@ public class Machasanit : MonoBehaviour
     private void MachsanitSizeCombo()
     {
         mSize++;
+        transform.position = new Vector3(transform.position.x + 95,transform.position.y);
         print("Added Size");
     }
 
