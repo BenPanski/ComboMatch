@@ -23,7 +23,7 @@ public class Tile : MonoBehaviour
     public bool _GettingDestoryed = false;
     Machasanit m;
     public GameObject VFX;
-    [Header("Counters")]
+    [Header("Variables")]
     [Space]
     public float encloseSpeed;
     public float smallestSize;
@@ -33,11 +33,15 @@ public class Tile : MonoBehaviour
     public string currentState;
     public string changeState;
     public Image childImg;
+    public bool CheckForLayer;
 
     private void Start()
     {
         m = FindObjectOfType<Machasanit>();
+        if (CheckForLayer)
+        {
         Layer = GetComponentInParent<LayerGiver>()._Layer;
+        }
         currentState = "";
         // mSprite.startingAnimation = "Starfish";
         //mSprite.startingAnimation.
