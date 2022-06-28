@@ -1,6 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using Spine.Unity;
+using Spine;
+using Spine.Collections;
 
 public enum MyEnum
 {
@@ -24,12 +28,19 @@ public class Tile : MonoBehaviour
     public float encloseSpeed;
     public float smallestSize;
     //[SerializeField] public int ID;
-    
+    public SkeletonGraphic mSprite;
+    public AnimationReferenceAsset refanim;
+    public string currentState;
+    public string changeState;
+    public Image childImg;
 
     private void Start()
     {
         m = FindObjectOfType<Machasanit>();
-        transform.SetSiblingIndex(Layer);
+        Layer = GetComponentInParent<LayerGiver>()._Layer;
+        currentState = "";
+        // mSprite.startingAnimation = "Starfish";
+        //mSprite.startingAnimation.
     }
     public void ComboMaker()
     {
@@ -47,18 +58,23 @@ public class Tile : MonoBehaviour
             StartCoroutine(waitsec());
         }
 
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            //print(mSprite.ToString());
+
+        }
     }
 
     private void FixedUpdate()
     {
-        if (_GettingDestoryed)
-        {
-        transform.localScale -= new Vector3(encloseSpeed, encloseSpeed, encloseSpeed);
-        }
-        if (transform.localScale.x < smallestSize)
-        {
-            Destroy(gameObject);
-        }
+        //if (_GettingDestoryed)
+        //{
+        //transform.localScale -= new Vector3(encloseSpeed, encloseSpeed, encloseSpeed);
+        //}
+        //if (transform.localScale.x < smallestSize)
+        //{
+        //    Destroy(gameObject);
+        //}
     }
 
     public IEnumerator FlyToCoru(float duration)
@@ -104,6 +120,24 @@ public class Tile : MonoBehaviour
     private IEnumerator waitsec()
     {
         yield return new WaitForSeconds(1f);
-        VFX.SetActive(true);
+        //VFX.SetActive(true);
+    }
+
+    public void SetAnimation(AnimationReferenceAsset animation, bool loop, float timescale)
+    {
+        // mSprite.state.SetAnimation(0,animation,loop).TimeScale = timescale; 
+        mSprite.AnimationState.SetAnimation(0, animation, loop).TimeScale = timescale;
+    }
+
+    public void SetAnimationState(string state)
+    {
+        if (state.Equals(""))
+        {
+            return;
+        }
+        if (state.Equals("Surfboard"))
+        {
+            SetAnimation(refanim, false, 1f);
+        }
     }
 }

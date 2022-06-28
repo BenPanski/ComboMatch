@@ -1,6 +1,6 @@
 {
   "dependencies": {
-    "com.coffee.ui-particle": "file:C:/Users/Eli-PC/Desktop/ParticleEffectForUGUI-4.0.0-preview.1",
+    "com.coffee.ui-particle": "https://github.com/mob-sakai/ParticleEffectForUGUI.git#4.1.1",
     "com.unity.2d.sprite": "1.0.0",
     "com.unity.collab-proxy": "1.13.5",
     "com.unity.device-simulator": "3.0.3-preview",
