@@ -22,19 +22,21 @@ public class Tile : MonoBehaviour
     public bool isJoker;
     public bool _GettingDestoryed = false;
     Machasanit m;
-    public GameObject VFX;
     [Header("Variables")]
     [Space]
     public float encloseSpeed;
     public float smallestSize;
     //[SerializeField] public int ID;
-    public SkeletonGraphic mSprite;
-    public AnimationReferenceAsset refanim;
+
     public string currentState;
     public string changeState;
     public Image childImg;
     public bool CheckForLayer;
-
+    [Header("Variables")]
+    [Space]
+    public SkeletonGraphic refanim;
+    public SkeletonDataAsset _dataAsset;
+    public GameObject VFX;
     private void Start()
     {
         m = FindObjectOfType<Machasanit>();
@@ -42,7 +44,7 @@ public class Tile : MonoBehaviour
         {
         Layer = GetComponentInParent<LayerGiver>()._Layer;
         }
-        currentState = "";
+        //currentState = "";
         // mSprite.startingAnimation = "Starfish";
         //mSprite.startingAnimation.
     }
@@ -64,8 +66,8 @@ public class Tile : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.E))
         {
-            //print(mSprite.ToString());
-
+            SetAnimationState();
+            print("Pressed E");
         }
     }
 
@@ -95,7 +97,7 @@ public class Tile : MonoBehaviour
                 endPos = (RectTransform)m.MachsanitSlots[i].transform;
 
                 t += Time.deltaTime;
-                startPos.anchoredPosition = Vector2.Lerp(startPos.anchoredPosition, endPos.anchoredPosition, t / duration);
+                startPos.transform.position = Vector2.Lerp(startPos.transform.position, endPos.transform.position, t / duration);
                 //print("Inside");
             }
             //duration = 0;
@@ -127,21 +129,10 @@ public class Tile : MonoBehaviour
         //VFX.SetActive(true);
     }
 
-    public void SetAnimation(AnimationReferenceAsset animation, bool loop, float timescale)
+    public void SetAnimationState()
     {
-        // mSprite.state.SetAnimation(0,animation,loop).TimeScale = timescale; 
-        mSprite.AnimationState.SetAnimation(0, animation, loop).TimeScale = timescale;
-    }
-
-    public void SetAnimationState(string state)
-    {
-        if (state.Equals(""))
-        {
-            return;
-        }
-        if (state.Equals("Surfboard"))
-        {
-            SetAnimation(refanim, false, 1f);
-        }
+        refanim.skeletonDataAsset = _dataAsset;
+        refanim.Initialize(_dataAsset);
+        print("Set Anim");
     }
 }

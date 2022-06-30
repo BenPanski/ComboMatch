@@ -39,6 +39,7 @@ public class Machasanit : MonoBehaviour
     [Header("Variables")]
     [Space]
     //public GameObject conButton;
+    public bool Randomize;
     public Canvas gameCanvas;
     public Button butt;
     public Button tileButton;
@@ -67,7 +68,10 @@ public class Machasanit : MonoBehaviour
 
     private void Start()
     {
+        if (Randomize)
+        {
         StartGame();
+        }
         for (int i = 0; i < mSize; i++)
         {
             MachsanitSlots[i].gameObject.SetActive(true);
@@ -76,10 +80,10 @@ public class Machasanit : MonoBehaviour
     }
     private void Update()
     {
-        if (CheckForWin())
-        {
-            StartCoroutine(WinAnimation());
-        }
+        //if (CheckForWin())
+        //{
+        //    StartCoroutine(WinAnimation());
+        //}
     }
 
 
@@ -354,7 +358,6 @@ public class Machasanit : MonoBehaviour
     private IEnumerator PlayAnim(Tile tile)
     {
         tile.childImg.gameObject.SetActive(false);
-        tile.SetAnimationState("Surfboard");
         yield return new WaitForSeconds(0.5f);
         tile.gameObject.SetActive(false);
     }
