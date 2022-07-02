@@ -2,39 +2,42 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-//public enum MyEnum
-//{
-//    blue, yellow, black, red
-//}
+public enum MyEnum
+{
+    blue, yellow, black, red
+}
 public class Tile : MonoBehaviour
 {
     [SerializeField] public int Layer;
     [SerializeField] public int Number;
-    //[SerializeField] public MyEnum Color;
-    //public bool isJoker;
+    [SerializeField] public MyEnum Color;
     [SerializeField] public bool _Comboabol = false;
     public bool _Interactable = true;
 <<<<<<< HEAD
+<<<<<<< HEAD
     //public bool _GettingDestoryed = false;
+=======
+    public bool isJoker;
+    public bool _GettingDestoryed = false;
+>>>>>>> parent of b7eb5e5 (GitHubFix)
     Machasanit m;
     [Header("Variables")]
     [Space]
-    //public string currentState;
-    //public string changeState;
+    public float encloseSpeed;
+    public float smallestSize;
+    //[SerializeField] public int ID;
+
+    public string currentState;
+    public string changeState;
     public Image childImg;
     public bool CheckForLayer;
     [Header("Variables")]
     [Space]
-    public SkeletonGraphic backGroundGraphic;
-    public SkeletonGraphic tileGraphic;
+    public SkeletonGraphic refanim;
     public SkeletonDataAsset _dataAsset;
-    public AnimationReferenceAsset encloseAnim;
-    public AnimationReferenceAsset backGroundAnim;
     public GameObject VFX;
-    bool firstClosed = true;
     private void Start()
     {
-        StartCoroutine(waitsec());   
         m = FindObjectOfType<Machasanit>();
         if (CheckForLayer)
         {
@@ -62,7 +65,7 @@ public class Tile : MonoBehaviour
 
     public void ComboMaker()
     {
-        
+
         if (_Comboabol && !_Interactable)
         {
             Machasanit.Instance.DestoryCombo(Number);
@@ -71,6 +74,7 @@ public class Tile : MonoBehaviour
     }
     private void Update()
     {
+<<<<<<< HEAD
 <<<<<<< HEAD
         if (_Comboabol && firstClosed)
         {
@@ -81,14 +85,24 @@ public class Tile : MonoBehaviour
         {
             Number = (int)counter;
 >>>>>>> 1386105adf5b57928f1c965bb0cc40999c133bdb
+=======
+        if (_Comboabol)
+        {
+            StartCoroutine(waitsec());
+>>>>>>> parent of b7eb5e5 (GitHubFix)
         }
         if (counter > 6)
         {
+<<<<<<< HEAD
 <<<<<<< HEAD
             print("PressedE");
 =======
             counter = 1;
 >>>>>>> 1386105adf5b57928f1c965bb0cc40999c133bdb
+=======
+            SetAnimationState();
+            print("Pressed E");
+>>>>>>> parent of b7eb5e5 (GitHubFix)
         }
 
     }
@@ -123,41 +137,15 @@ public class Tile : MonoBehaviour
 <<<<<<< HEAD
     private IEnumerator waitsec()
     {
-        yield return new WaitForSeconds(0.01f);
-        VFX.SetActive(false);
+        yield return new WaitForSeconds(1f);
+        //VFX.SetActive(true);
     }
 
-    public void SetAnimation(SkeletonGraphic skeleton,AnimationReferenceAsset animation, bool loop, float timescale)
+    public void SetAnimationState()
     {
-        // mSprite.state.SetAnimation(0,animation,loop).TimeScale = timescale; 
-        skeleton.AnimationState.SetAnimation(0, animation, loop).TimeScale = timescale;
-    }
-
-    public void SetAnimationState(string state)
-    {
-        if (state.Equals(""))
-        {
-            return;
-        }
-        if (state.Equals("Surfboard"))
-        {
-            SetAnimation(tileGraphic,encloseAnim, false, 1f);
-        }
-    }
-
-    public void EncloseAnimation()
-    {
-        VFX.SetActive(false);
-        tileGraphic.timeScale = 1;
-    }
-    public void SetVFX()
-    {
-        firstClosed = false;
-        backGroundGraphic.skeletonDataAsset = _dataAsset;
-        backGroundGraphic.Initialize(_dataAsset);
-        VFX.SetActive(true);
+        refanim.skeletonDataAsset = _dataAsset;
+        refanim.Initialize(_dataAsset);
         print("Set Anim");
-        SetAnimation(backGroundGraphic,backGroundAnim, true, 1f);
     }
 =======
 

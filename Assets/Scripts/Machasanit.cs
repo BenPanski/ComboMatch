@@ -40,16 +40,21 @@ public class Machasanit : MonoBehaviour
     [Space]
     //public GameObject conButton;
 <<<<<<< HEAD
+<<<<<<< HEAD
     [SerializeField] private int mSize;
+=======
+>>>>>>> parent of b7eb5e5 (GitHubFix)
     public bool Randomize;
 =======
 >>>>>>> 1386105adf5b57928f1c965bb0cc40999c133bdb
     public Canvas gameCanvas;
-    //public Button butt;
-    //public Button tileButton;
+    public Button butt;
+    public Button tileButton;
     public int Raws;
     public TextMeshProUGUI loose;
     public RectTransform winTile;
+    public bool goingright = false;
+    [SerializeField] private int mSize;
     [Header("Combo Cost")]
     [Space]
     [SerializeField] private int JokerCost;
@@ -62,7 +67,7 @@ public class Machasanit : MonoBehaviour
     //public List<Tile> sortedTileColors;
     [Header("Counters")]
     [Space]
-    //public bool moreThen3;
+    public bool moreThen3;
     public int NumberOfOnes, NumberOftwos, NumberOfthrees, NumberOffours, NumberOffives, NumberOfsix;
     public ParticleSystem winParticle;
 
@@ -78,6 +83,7 @@ public class Machasanit : MonoBehaviour
     private void Update()
     {
 <<<<<<< HEAD
+<<<<<<< HEAD
 
 =======
         if (CheckForWin() == true)
@@ -85,6 +91,12 @@ public class Machasanit : MonoBehaviour
             StartCoroutine(WinAnimation());
         }
 >>>>>>> 1386105adf5b57928f1c965bb0cc40999c133bdb
+=======
+        //if (CheckForWin())
+        //{
+        //    StartCoroutine(WinAnimation());
+        //}
+>>>>>>> parent of b7eb5e5 (GitHubFix)
     }
 
     public IEnumerator WinAnimation()
@@ -164,7 +176,6 @@ public class Machasanit : MonoBehaviour
                 //  Seder();
                 tile._Interactable = false;
             }
-
         }
 
         if (TilesInMachsanit.Count == mSize && NumberOfOnes < 3 && NumberOftwos < 3 && NumberOfthrees < 3 && NumberOffours < 3 && NumberOffives < 3 && NumberOfsix < 3)
@@ -172,10 +183,7 @@ public class Machasanit : MonoBehaviour
             loose.gameObject.SetActive(true);
             print("YouLoose");
         }
-        if (CheckForWin())
-        {
-            StartCoroutine(WinAnimation());
-        }
+
         // tile.gameObject.SetActive(false);
     }
 
@@ -204,10 +212,10 @@ public class Machasanit : MonoBehaviour
         {
             foreach (var item in TilesInMachsanit)
             {
-                //if (item.isJoker)
-                //{
-                //    send joker info
-                //}
+                if (item.isJoker)
+                {
+                    //send joker info
+                }
                 if (item.Number == Mispar)
                 {
                     MacsanitMesudert.Add(item);
@@ -371,8 +379,7 @@ public class Machasanit : MonoBehaviour
 <<<<<<< HEAD
     private IEnumerator PlayAnim(Tile tile)
     {
-        //tile.childImg.gameObject.SetActive(false);
-        tile.EncloseAnimation();
+        tile.childImg.gameObject.SetActive(false);
         yield return new WaitForSeconds(0.5f);
         tile.gameObject.SetActive(false);
     }
@@ -532,7 +539,10 @@ public class Machasanit : MonoBehaviour
 
 
     }
+<<<<<<< HEAD
 
 =======
 >>>>>>> 1386105adf5b57928f1c965bb0cc40999c133bdb
+=======
+>>>>>>> parent of b7eb5e5 (GitHubFix)
 }

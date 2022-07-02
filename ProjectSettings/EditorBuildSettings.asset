@@ -7,10 +7,15 @@ EditorBuildSettings:
   m_Scenes:
   - enabled: 1
 <<<<<<< HEAD
+<<<<<<< HEAD
     path: Assets/Scenes/VFX Scene 1440P 1.unity
     guid: db1fe4ff71cab2a4691a2eebc07bc0b4
 =======
     path: Assets/Scenes/SampleScene.unity
     guid: 2cda990e2423bbf4892e6590ba056729
 >>>>>>> 1386105adf5b57928f1c965bb0cc40999c133bdb
+=======
+    path: Assets/Scenes/VFX Scene 1080P.unity
+    guid: e007b49bd7bbc324c8af9a75aa415742
+>>>>>>> parent of b7eb5e5 (GitHubFix)
   m_configObjects: {}
