@@ -164,11 +164,11 @@ public class Machasanit : MonoBehaviour
 
         }
 
-        if (TilesInMachsanit.Count == mSize && NumberOfOnes < 3 && NumberOftwos < 3 && NumberOfthrees < 3 && NumberOffours < 3 && NumberOffives < 3 && NumberOfsix < 3)
+        /*if (TilesInMachsanit.Count == mSize && NumberOfOnes < 3 && NumberOftwos < 3 && NumberOfthrees < 3 && NumberOffours < 3 && NumberOffives < 3 && NumberOfsix < 3)
         {
             loose.gameObject.SetActive(true);
             print("YouLoose");
-        }
+        }*/
         if (CheckForWin())
         {
             StartCoroutine(WinAnimation());
