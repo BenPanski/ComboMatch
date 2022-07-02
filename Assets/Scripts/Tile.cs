@@ -6,39 +6,40 @@ using Spine.Unity;
 using Spine;
 using Spine.Collections;
 
-public enum MyEnum
-{
-    blue, yellow, black, red
-}
+//public enum MyEnum
+//{
+//    blue, yellow, black, red
+//}
 public class Tile : MonoBehaviour
 {
     [Header("Counters")]
     [Space]
     [SerializeField] public int Layer;
     [SerializeField] public int Number;
-    [SerializeField] public MyEnum Color;
+    //[SerializeField] public MyEnum Color;
+    //public bool isJoker;
     [SerializeField] public bool _Comboabol = false;
     public bool _Interactable = true;
-    public bool isJoker;
-    public bool _GettingDestoryed = false;
+    //public bool _GettingDestoryed = false;
     Machasanit m;
     [Header("Variables")]
     [Space]
-    public float encloseSpeed;
-    public float smallestSize;
-    //[SerializeField] public int ID;
-
-    public string currentState;
-    public string changeState;
+    //public string currentState;
+    //public string changeState;
     public Image childImg;
     public bool CheckForLayer;
     [Header("Variables")]
     [Space]
-    public SkeletonGraphic refanim;
+    public SkeletonGraphic backGroundGraphic;
+    public SkeletonGraphic tileGraphic;
     public SkeletonDataAsset _dataAsset;
+    public AnimationReferenceAsset encloseAnim;
+    public AnimationReferenceAsset backGroundAnim;
     public GameObject VFX;
+    bool firstClosed = true;
     private void Start()
     {
+        StartCoroutine(waitsec());   
         m = FindObjectOfType<Machasanit>();
         if (CheckForLayer)
         {
@@ -50,7 +51,7 @@ public class Tile : MonoBehaviour
     }
     public void ComboMaker()
     {
-
+        
         if (_Comboabol && !_Interactable)
         {
             Machasanit.Instance.DestoryCombo(Number);
@@ -59,15 +60,14 @@ public class Tile : MonoBehaviour
     }
     private void Update()
     {
-        if (_Comboabol)
+        if (_Comboabol && firstClosed)
         {
-            StartCoroutine(waitsec());
+            SetVFX();
         }
 
         if (Input.GetKeyDown(KeyCode.E))
         {
-            SetAnimationState();
-            print("Pressed E");
+            print("PressedE");
         }
     }
 
@@ -125,14 +125,40 @@ public class Tile : MonoBehaviour
     }
     private IEnumerator waitsec()
     {
-        yield return new WaitForSeconds(1f);
-        //VFX.SetActive(true);
+        yield return new WaitForSeconds(0.01f);
+        VFX.SetActive(false);
     }
 
-    public void SetAnimationState()
+    public void SetAnimation(SkeletonGraphic skeleton,AnimationReferenceAsset animation, bool loop, float timescale)
     {
-        refanim.skeletonDataAsset = _dataAsset;
-        refanim.Initialize(_dataAsset);
+        // mSprite.state.SetAnimation(0,animation,loop).TimeScale = timescale; 
+        skeleton.AnimationState.SetAnimation(0, animation, loop).TimeScale = timescale;
+    }
+
+    public void SetAnimationState(string state)
+    {
+        if (state.Equals(""))
+        {
+            return;
+        }
+        if (state.Equals("Surfboard"))
+        {
+            SetAnimation(tileGraphic,encloseAnim, false, 1f);
+        }
+    }
+
+    public void EncloseAnimation()
+    {
+        VFX.SetActive(false);
+        tileGraphic.timeScale = 1;
+    }
+    public void SetVFX()
+    {
+        firstClosed = false;
+        backGroundGraphic.skeletonDataAsset = _dataAsset;
+        backGroundGraphic.Initialize(_dataAsset);
+        VFX.SetActive(true);
         print("Set Anim");
+        SetAnimation(backGroundGraphic,backGroundAnim, true, 1f);
     }
 }

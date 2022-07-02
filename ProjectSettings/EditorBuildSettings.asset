@@ -6,6 +6,6 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/VFX Scene 1080P.unity
-    guid: e007b49bd7bbc324c8af9a75aa415742
+    path: Assets/Scenes/VFX Scene 1440P 1.unity
+    guid: db1fe4ff71cab2a4691a2eebc07bc0b4
   m_configObjects: {}
