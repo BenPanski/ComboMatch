@@ -1,10 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
-using Spine.Unity;
-using Spine;
-using Spine.Collections;
 
 //public enum MyEnum
 //{
@@ -12,14 +8,13 @@ using Spine.Collections;
 //}
 public class Tile : MonoBehaviour
 {
-    [Header("Counters")]
-    [Space]
     [SerializeField] public int Layer;
     [SerializeField] public int Number;
     //[SerializeField] public MyEnum Color;
     //public bool isJoker;
     [SerializeField] public bool _Comboabol = false;
     public bool _Interactable = true;
+<<<<<<< HEAD
     //public bool _GettingDestoryed = false;
     Machasanit m;
     [Header("Variables")]
@@ -48,7 +43,23 @@ public class Tile : MonoBehaviour
         //currentState = "";
         // mSprite.startingAnimation = "Starfish";
         //mSprite.startingAnimation.
+=======
+    public bool isJoker;
+    float counter = 0;
+    //[SerializeField] public int ID;
+
+
+    private void Start()
+    {
+        SetLayer();
     }
+    [ContextMenu("Set Layer")]
+    private void SetLayer()
+    {
+        transform.SetSiblingIndex(Layer);
+>>>>>>> 1386105adf5b57928f1c965bb0cc40999c133bdb
+    }
+
     public void ComboMaker()
     {
         
@@ -60,69 +71,56 @@ public class Tile : MonoBehaviour
     }
     private void Update()
     {
+<<<<<<< HEAD
         if (_Comboabol && firstClosed)
         {
             SetVFX();
-        }
-
-        if (Input.GetKeyDown(KeyCode.E))
+=======
+        counter += (Time.deltaTime * 1.5f);
+        if (isJoker)
         {
+            Number = (int)counter;
+>>>>>>> 1386105adf5b57928f1c965bb0cc40999c133bdb
+        }
+        if (counter > 6)
+        {
+<<<<<<< HEAD
             print("PressedE");
+=======
+            counter = 1;
+>>>>>>> 1386105adf5b57928f1c965bb0cc40999c133bdb
         }
+
     }
 
-    private void FixedUpdate()
+
+    private void ClickOnTile()
     {
-        //if (_GettingDestoryed)
-        //{
-        //transform.localScale -= new Vector3(encloseSpeed, encloseSpeed, encloseSpeed);
-        //}
-        //if (transform.localScale.x < smallestSize)
-        //{
-        //    Destroy(gameObject);
-        //}
+
+
     }
 
-    public IEnumerator FlyToCoru(float duration)
+
+    public IEnumerator FlyToCoru(RectTransform startPos, RectTransform endPos, float duration)
     {
-        RectTransform startPos;
-        RectTransform endPos;
         float t = 0;
         while (t < duration)
         {
             yield return new WaitForEndOfFrame();
-            for (int i = 0; i < m.MacsanitMesudert.Count; i++)
-            {
-                startPos = (RectTransform)m.MacsanitMesudert[i].transform;
-                endPos = (RectTransform)m.MachsanitSlots[i].transform;
 
-                t += Time.deltaTime;
-                startPos.transform.position = Vector2.Lerp(startPos.transform.position, endPos.transform.position, t / duration);
-                //print("Inside");
-            }
-            //duration = 0;
-        }
-    }
-    public IEnumerator FlyToED(float duration)
-    {
-        RectTransform startPos;
-        RectTransform endPos;
-        float t = 0;
-        while (t < duration)
-        {
-            yield return new WaitForEndOfFrame();
-            for (int i = 0; i < m.MacsanitMesudert.Count; i++)
+            for (int i = 0; i < Machasanit.Instance.MacsanitMesudert.Count; i++)
             {
-                startPos = (RectTransform)m.MacsanitMesudert[i].transform;
-                endPos = m.winTile;
+                startPos = (RectTransform)Machasanit.Instance.MacsanitMesudert[i].transform;
+                endPos = (RectTransform)Machasanit.Instance.MachsanitSlots[i].transform;
 
-                t += Time.deltaTime;
                 startPos.anchoredPosition = Vector2.Lerp(startPos.anchoredPosition, endPos.anchoredPosition, t / duration);
                 //print("Inside");
+                t += Time.deltaTime;
             }
             //duration = 0;
         }
     }
+<<<<<<< HEAD
     private IEnumerator waitsec()
     {
         yield return new WaitForSeconds(0.01f);
@@ -161,4 +159,8 @@ public class Tile : MonoBehaviour
         print("Set Anim");
         SetAnimation(backGroundGraphic,backGroundAnim, true, 1f);
     }
+=======
+
+
+>>>>>>> 1386105adf5b57928f1c965bb0cc40999c133bdb
 }

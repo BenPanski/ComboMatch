@@ -6,6 +6,11 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+<<<<<<< HEAD
     path: Assets/Scenes/VFX Scene 1440P 1.unity
     guid: db1fe4ff71cab2a4691a2eebc07bc0b4
+=======
+    path: Assets/Scenes/SampleScene.unity
+    guid: 2cda990e2423bbf4892e6590ba056729
+>>>>>>> 1386105adf5b57928f1c965bb0cc40999c133bdb
   m_configObjects: {}
