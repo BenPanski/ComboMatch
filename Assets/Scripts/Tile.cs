@@ -1,43 +1,45 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using Spine.Unity;
+using Spine;
+using Spine.Collections;
 
-public enum MyEnum
-{
-    blue, yellow, black, red
-}
+//public enum MyEnum
+//{
+//    blue, yellow, black, red
+//}
 public class Tile : MonoBehaviour
 {
+    [Header("Counters")]
+    [Space]
     [SerializeField] public int Layer;
     [SerializeField] public int Number;
-    [SerializeField] public MyEnum Color;
+    //[SerializeField] public MyEnum Color;
+    //public bool isJoker;
     [SerializeField] public bool _Comboabol = false;
     public bool _Interactable = true;
-<<<<<<< HEAD
-<<<<<<< HEAD
     //public bool _GettingDestoryed = false;
-=======
-    public bool isJoker;
-    public bool _GettingDestoryed = false;
->>>>>>> parent of b7eb5e5 (GitHubFix)
     Machasanit m;
     [Header("Variables")]
     [Space]
-    public float encloseSpeed;
-    public float smallestSize;
-    //[SerializeField] public int ID;
-
-    public string currentState;
-    public string changeState;
+    //public string currentState;
+    //public string changeState;
     public Image childImg;
     public bool CheckForLayer;
     [Header("Variables")]
     [Space]
-    public SkeletonGraphic refanim;
+    public SkeletonGraphic backGroundGraphic;
+    public SkeletonGraphic tileGraphic;
     public SkeletonDataAsset _dataAsset;
+    public AnimationReferenceAsset encloseAnim;
+    public AnimationReferenceAsset backGroundAnim;
     public GameObject VFX;
+    bool firstClosed = true;
     private void Start()
     {
+        StartCoroutine(waitsec());   
         m = FindObjectOfType<Machasanit>();
         if (CheckForLayer)
         {
@@ -46,26 +48,10 @@ public class Tile : MonoBehaviour
         //currentState = "";
         // mSprite.startingAnimation = "Starfish";
         //mSprite.startingAnimation.
-=======
-    public bool isJoker;
-    float counter = 0;
-    //[SerializeField] public int ID;
-
-
-    private void Start()
-    {
-        SetLayer();
     }
-    [ContextMenu("Set Layer")]
-    private void SetLayer()
-    {
-        transform.SetSiblingIndex(Layer);
->>>>>>> 1386105adf5b57928f1c965bb0cc40999c133bdb
-    }
-
     public void ComboMaker()
     {
-
+        
         if (_Comboabol && !_Interactable)
         {
             Machasanit.Instance.DestoryCombo(Number);
@@ -74,81 +60,105 @@ public class Tile : MonoBehaviour
     }
     private void Update()
     {
-<<<<<<< HEAD
-<<<<<<< HEAD
         if (_Comboabol && firstClosed)
         {
             SetVFX();
-=======
-        counter += (Time.deltaTime * 1.5f);
-        if (isJoker)
-        {
-            Number = (int)counter;
->>>>>>> 1386105adf5b57928f1c965bb0cc40999c133bdb
-=======
-        if (_Comboabol)
-        {
-            StartCoroutine(waitsec());
->>>>>>> parent of b7eb5e5 (GitHubFix)
         }
-        if (counter > 6)
+
+        if (Input.GetKeyDown(KeyCode.E))
         {
-<<<<<<< HEAD
-<<<<<<< HEAD
             print("PressedE");
-=======
-            counter = 1;
->>>>>>> 1386105adf5b57928f1c965bb0cc40999c133bdb
-=======
-            SetAnimationState();
-            print("Pressed E");
->>>>>>> parent of b7eb5e5 (GitHubFix)
         }
-
     }
 
-
-    private void ClickOnTile()
+    private void FixedUpdate()
     {
-
-
+        //if (_GettingDestoryed)
+        //{
+        //transform.localScale -= new Vector3(encloseSpeed, encloseSpeed, encloseSpeed);
+        //}
+        //if (transform.localScale.x < smallestSize)
+        //{
+        //    Destroy(gameObject);
+        //}
     }
 
-
-    public IEnumerator FlyToCoru(RectTransform startPos, RectTransform endPos, float duration)
+    public IEnumerator FlyToCoru(float duration)
     {
+        RectTransform startPos;
+        RectTransform endPos;
         float t = 0;
         while (t < duration)
         {
             yield return new WaitForEndOfFrame();
-
-            for (int i = 0; i < Machasanit.Instance.MacsanitMesudert.Count; i++)
+            for (int i = 0; i < m.MacsanitMesudert.Count; i++)
             {
-                startPos = (RectTransform)Machasanit.Instance.MacsanitMesudert[i].transform;
-                endPos = (RectTransform)Machasanit.Instance.MachsanitSlots[i].transform;
+                startPos = (RectTransform)m.MacsanitMesudert[i].transform;
+                endPos = (RectTransform)m.MachsanitSlots[i].transform;
 
-                startPos.anchoredPosition = Vector2.Lerp(startPos.anchoredPosition, endPos.anchoredPosition, t / duration);
-                //print("Inside");
                 t += Time.deltaTime;
+                startPos.transform.position = Vector2.Lerp(startPos.transform.position, endPos.transform.position, t / duration);
+                //print("Inside");
             }
             //duration = 0;
         }
     }
-<<<<<<< HEAD
+    public IEnumerator FlyToED(float duration)
+    {
+        RectTransform startPos;
+        RectTransform endPos;
+        float t = 0;
+        while (t < duration)
+        {
+            yield return new WaitForEndOfFrame();
+            for (int i = 0; i < m.MacsanitMesudert.Count; i++)
+            {
+                startPos = (RectTransform)m.MacsanitMesudert[i].transform;
+                endPos = m.winTile;
+
+                t += Time.deltaTime;
+                startPos.anchoredPosition = Vector2.Lerp(startPos.anchoredPosition, endPos.anchoredPosition, t / duration);
+                //print("Inside");
+            }
+            //duration = 0;
+        }
+    }
     private IEnumerator waitsec()
     {
-        yield return new WaitForSeconds(1f);
-        //VFX.SetActive(true);
+        yield return new WaitForSeconds(0.01f);
+        VFX.SetActive(false);
     }
 
-    public void SetAnimationState()
+    public void SetAnimation(SkeletonGraphic skeleton,AnimationReferenceAsset animation, bool loop, float timescale)
     {
-        refanim.skeletonDataAsset = _dataAsset;
-        refanim.Initialize(_dataAsset);
-        print("Set Anim");
+        // mSprite.state.SetAnimation(0,animation,loop).TimeScale = timescale; 
+        skeleton.AnimationState.SetAnimation(0, animation, loop).TimeScale = timescale;
     }
-=======
 
+    public void SetAnimationState(string state)
+    {
+        if (state.Equals(""))
+        {
+            return;
+        }
+        if (state.Equals("Surfboard"))
+        {
+            SetAnimation(tileGraphic,encloseAnim, false, 1f);
+        }
+    }
 
->>>>>>> 1386105adf5b57928f1c965bb0cc40999c133bdb
+    public void EncloseAnimation()
+    {
+        VFX.SetActive(false);
+        tileGraphic.timeScale = 1;
+    }
+    public void SetVFX()
+    {
+        firstClosed = false;
+        backGroundGraphic.skeletonDataAsset = _dataAsset;
+        backGroundGraphic.Initialize(_dataAsset);
+        VFX.SetActive(true);
+        print("Set Anim");
+        SetAnimation(backGroundGraphic,backGroundAnim, true, 1f);
+    }
 }
