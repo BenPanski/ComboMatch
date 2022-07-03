@@ -91,17 +91,18 @@ public class Machasanit : MonoBehaviour
 
             foreach (var item in TilesInBoard)
             {
+                yield return new WaitForSeconds(0.1f);
                 AddTile(item);
             }
             added = true;
         }
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(0.5f);
         foreach (var test in TilesInMachsanit)
         {
-            StartCoroutine(test.FlyToED(1f));
+            StartCoroutine(test.FlyToED(0.5f));
 
         }
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(0.5f);
         //if (TilesInMachsanit.Count >0)
         //{
         //    TilesInMachsanit[0].ComboMaker();
@@ -164,15 +165,12 @@ public class Machasanit : MonoBehaviour
 
         }
 
-        /*if (TilesInMachsanit.Count == mSize && NumberOfOnes < 3 && NumberOftwos < 3 && NumberOfthrees < 3 && NumberOffours < 3 && NumberOffives < 3 && NumberOfsix < 3)
+        if (TilesInMachsanit.Count == mSize && NumberOfOnes < 3 && NumberOftwos < 3 && NumberOfthrees < 3 && NumberOffours < 3 && NumberOffives < 3 && NumberOfsix < 3)
         {
             loose.gameObject.SetActive(true);
             print("YouLoose");
-        }*/
-        if (CheckForWin())
-        {
-            StartCoroutine(WinAnimation());
         }
+
         // tile.gameObject.SetActive(false);
     }
 
@@ -293,17 +291,10 @@ public class Machasanit : MonoBehaviour
             }
 
         }
-        //foreach (var Combo in MacsanitMesudert)
-        //    {
-        //    //if (NumberOfOnes >=3)
-        //    //{
-        //    //    if (Combo.Number == 1)
-        //    //    {
-        //    //    StartCoroutine(Wait(Combo));
-        //    //    }
-        //    //}
-
-        //}
+        if (CheckForWin())
+        {
+            StartCoroutine(WinAnimation());
+        }
     }
 
 
