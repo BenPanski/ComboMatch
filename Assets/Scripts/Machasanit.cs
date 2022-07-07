@@ -107,8 +107,8 @@ public class Machasanit : MonoBehaviour
         //{
         //    TilesInMachsanit[0].ComboMaker();
         //}
-        winParticle.Play();
         win.gameObject.SetActive(true);
+        winParticle.Play();
     }
 
     private void StartGame()
